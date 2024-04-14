@@ -9,26 +9,14 @@ package dominio;
  * @author Lucas
  */
 public class Pasaje {
-    private int nroPasaje;
     private String pasaporteCliente;
     private String codigoVuelo;
     private int categoriaPasaje;
-    private String estadoPasaje;
 
-    public Pasaje(int nroPasaje, String pasaporteCliente, String codigoVuelo, int categoriaPasaje, String estadoPasaje) {
-        this.nroPasaje = nroPasaje;
+    public Pasaje(String pasaporteCliente, String codigoVuelo, int categoriaPasaje) {
         this.pasaporteCliente = pasaporteCliente;
         this.codigoVuelo = codigoVuelo;
         this.categoriaPasaje = categoriaPasaje;
-        this.estadoPasaje = estadoPasaje;
-    }
-
-    public int getNroPasaje() {
-        return nroPasaje;
-    }
-
-    public void setNroPasaje(int nroPasaje) {
-        this.nroPasaje = nroPasaje;
     }
 
     public String getPasaporteCliente() {

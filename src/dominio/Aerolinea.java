@@ -11,7 +11,8 @@ package dominio;
 public class Aerolinea implements Comparable<Aerolinea> {
     private String nombre ;
     private String pais;
-    private int cantMaxAviones ;
+    private int cantMaxAviones;
+    // Lista de aviones
 
     public Aerolinea(String nombre, String pais, int cantMaxAviones) {
         this.nombre = nombre;
@@ -42,7 +43,7 @@ public class Aerolinea implements Comparable<Aerolinea> {
     public void setCantMaxAviones(int cantMaxAviones) {
         this.cantMaxAviones = cantMaxAviones;
     }
-
+    
     public int compareTo(Aerolinea a) {
         if (this.nombre.compareTo(a.getNombre()) < 0) {
             return -1;

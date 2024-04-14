@@ -19,6 +19,7 @@ public class Vuelo {
     private int año;
     private int cantPasajesEcon;
     private int cantPasajesPClase;
+    
 
     public Vuelo(String codigoVuelo, String aerolinea, String codAvion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
         this.codigoVuelo = codigoVuelo;
@@ -103,7 +104,11 @@ public class Vuelo {
     public void setCantPasajesPClase(int cantPasajesPClase) {
         this.cantPasajesPClase = cantPasajesPClase;
     }
-
+    
+    public void rellenar(){
+        
+    }
+    
     public void Validar() throws Exception {
         if (cantPasajesEcon < 3 || (cantPasajesEcon % 3) != 0) {
             throw new Exception("La cantidad de pasajes de tipo economico debe ser superior a tres y multiplo de este");

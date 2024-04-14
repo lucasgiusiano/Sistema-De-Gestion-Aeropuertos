@@ -4,12 +4,13 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno crearSistemaDeGestion() {
+
         return Retorno.noImplementada();
     }
 
     @Override
     public Retorno crearAerolinea(String nombre, String pais, int cantMaxAviones) {
-      return Retorno.noImplementada();
+        return Retorno.noImplementada();
     }
 
     @Override
@@ -34,6 +35,13 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno crearVuelo(String codigoVuelo, String aerolinea, String codAvion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
+        Avion a = new Avion();
+        Vuelo v = new Vuelo();
+        
+        if () {
+            Vuelo.Rellenar(Avion.cantidadMax);
+        }
+
         return Retorno.noImplementada();
     }
 
@@ -57,6 +65,7 @@ public class Sistema implements IObligatorio {
         return Retorno.noImplementada();
     }
 
+    // Aplicar recursivamente
     @Override
     public Retorno listarClientes() {
         return Retorno.noImplementada();
@@ -67,6 +76,7 @@ public class Sistema implements IObligatorio {
         return Retorno.noImplementada();
     }
 
+        // Aplicar recursivamente
     @Override
     public Retorno vuelosDeCliente(String pasaporte) {
         return Retorno.noImplementada();

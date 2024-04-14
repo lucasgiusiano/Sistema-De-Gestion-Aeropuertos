@@ -11,10 +11,13 @@ package dominio;
 public class Avion {
     private String nomAerolinea;
     private String codAvion;
+    private int capacidadMax;
+    //Lista de pasajes
 
-    public Avion(String nomAerolinea, String codAvion) {
+    public Avion(String nomAerolinea, String codAvion, int capacidadMax) {
         this.nomAerolinea = nomAerolinea;
         this.codAvion = codAvion;
+        this.capacidadMax = capacidadMax;
     }
 
     public String getNomAerolinea() {
@@ -32,6 +35,16 @@ public class Avion {
     public void setCodAvion(String codAvion) {
         this.codAvion = codAvion;
     }
+
+    public int getCapacidadMax() {
+        return capacidadMax;
+    }
+
+    public void setCapacidadMax(int capacidadMax) {
+        this.capacidadMax = capacidadMax;
+    }
+    
+    
     
     
 }

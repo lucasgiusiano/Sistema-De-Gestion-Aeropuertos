@@ -9,31 +9,25 @@ import listas.Nodo;
 /**
  *
  * @author Lucas
- * @param <T>
  */
-public interface ILista<T> {
+public interface ICola<T> {
 
-    public boolean esVacia();
+    void encolar(T elemento);
 
-    public void agregarInicio(T n);
+    T desencolar();
 
-    public void agregarFinal(T n);
+    T frente();
 
-    public void borrarInicio();
+    boolean esVacia();
 
-    public void borrarFin();
-
-    public void vaciar();
+    int cantElementos();
 
     public void mostrar();
 
     public boolean estaElemento(T n);
 
-    public int cantElementos();
-
     public Nodo<T> obtenerElemento(T n);
 
-    public void borrarElemento(T n);
+    void vaciar();
 
-    public void agregarOrd(T n);
 }

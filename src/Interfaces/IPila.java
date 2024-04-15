@@ -9,31 +9,24 @@ import listas.Nodo;
 /**
  *
  * @author Lucas
- * @param <T>
  */
-public interface ILista<T> {
+public interface IPila<T> {
 
-    public boolean esVacia();
+    void apilar(T elemento);
 
-    public void agregarInicio(T n);
+    T desapilar();
 
-    public void agregarFinal(T n);
+    T cima();
 
-    public void borrarInicio();
+    boolean esVacia();
 
-    public void borrarFin();
-
-    public void vaciar();
+    public int cantElementos();
 
     public void mostrar();
 
     public boolean estaElemento(T n);
 
-    public int cantElementos();
-
     public Nodo<T> obtenerElemento(T n);
 
-    public void borrarElemento(T n);
-
-    public void agregarOrd(T n);
+    void vaciar();
 }

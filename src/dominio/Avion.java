@@ -4,6 +4,8 @@
  */
 package dominio;
 
+import listas.Cola;
+
 /**
  *
  * @author Lucas
@@ -12,8 +14,8 @@ public class Avion {
     private String nomAerolinea;
     private String codAvion;
     private int capacidadMax;
-    //Lista de pasajes
-
+    private Cola<Vuelo> vuelos;
+            
     public Avion(String nomAerolinea, String codAvion, int capacidadMax) {
         this.nomAerolinea = nomAerolinea;
         this.codAvion = codAvion;

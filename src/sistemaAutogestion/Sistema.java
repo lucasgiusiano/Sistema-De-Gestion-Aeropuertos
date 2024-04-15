@@ -1,6 +1,14 @@
 package sistemaAutogestion;
 
+import dominio.Aerolinea;
+import dominio.Avion;
+import dominio.Vuelo;
+import listas.ListaSimple;
+import sistemaAutogestion.Retorno.Resultado;
+
 public class Sistema implements IObligatorio {
+
+    public ListaSimple<Aerolinea> aerolineas;
 
     @Override
     public Retorno crearSistemaDeGestion() {
@@ -10,12 +18,38 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno crearAerolinea(String nombre, String pais, int cantMaxAviones) {
-        return Retorno.noImplementada();
+        Resultado ret = null;
+
+        Aerolinea nueva = new Aerolinea(nombre, pais, cantMaxAviones);
+
+        if (aerolineas.estaElemento(nueva)) {
+            ret = ret.ERROR_1;
+        } else if (cantMaxAviones <= 0) {
+            ret = ret.ERROR_2;
+        } else {
+            ret = ret.OK;
+            aerolineas.agregarFinal(nueva);
+        }
+
+        return new Retorno(ret);
     }
 
     @Override
     public Retorno eliminarAerolinea(String nombre) {
-        return Retorno.noImplementada();
+        Resultado ret = null;
+
+        Aerolinea aBorrar = aerolineas.obtenerElemento(new Aerolinea(nombre)).getDato();
+        
+        if (aBorrar == null) {
+            ret = ret.ERROR_1;
+        }else if(aBorrar.getAviones().cantElementos() > 0){
+            ret = ret.ERROR_2;
+        }else{
+            ret = ret.OK;
+            aerolineas.borrarElemento(aBorrar);
+        }
+        
+        return new Retorno(ret);
     }
 
     @Override
@@ -35,12 +69,6 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno crearVuelo(String codigoVuelo, String aerolinea, String codAvion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
-        Avion a = new Avion();
-        Vuelo v = new Vuelo();
-        
-        if () {
-            Vuelo.Rellenar(Avion.cantidadMax);
-        }
 
         return Retorno.noImplementada();
     }
@@ -57,7 +85,8 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno listarAerolineas() {
-        return Retorno.noImplementada();
+        
+        return Retorno.ok();
     }
 
     @Override
@@ -76,7 +105,7 @@ public class Sistema implements IObligatorio {
         return Retorno.noImplementada();
     }
 
-        // Aplicar recursivamente
+    // Aplicar recursivamente
     @Override
     public Retorno vuelosDeCliente(String pasaporte) {
         return Retorno.noImplementada();

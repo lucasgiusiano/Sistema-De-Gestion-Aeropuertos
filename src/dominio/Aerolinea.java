@@ -22,6 +22,8 @@ public class Aerolinea implements Comparable<Aerolinea> {
         this.nombre = nombre;
         this.pais = pais;
         this.cantMaxAviones = cantMaxAviones;
+        aviones = new ListaSimple<Avion>();
+
     }
 
     public Aerolinea(String nombre) {
@@ -66,7 +68,7 @@ public class Aerolinea implements Comparable<Aerolinea> {
             return 0;
         }
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -87,8 +89,7 @@ public class Aerolinea implements Comparable<Aerolinea> {
 
     @Override
     public String toString() {
-        return nombre + " -- " + pais + " -- " + cantMaxAviones;
+        return nombre + " - " + pais + " - " + cantMaxAviones;
     }
-    
-    
+
 }

@@ -64,7 +64,7 @@ public class Sistema implements IObligatorio {
 
         Aerolinea aerolinea = aerolineas.obtenerElemento(new Aerolinea(nomAerolinea)).getDato();
 
-        if (capacidadMax < 9 && capacidadMax % 3 != 0) {
+        if (capacidadMax < 9 || capacidadMax % 3 != 0) {
             ret = ret.ERROR_2;
         } else if (aerolinea == null) {
             ret = ret.ERROR_3;

@@ -50,14 +50,25 @@ public class Pila<T> implements IPila<T> {
 
     @Override
     public T desapilar() {
-        Nodo<T> aBorrar = getInicio();
-
+        T desapilado = null;
         if (!esVacia()) {
-            inicio = getInicio().getSiguiente();
-            aBorrar.setSiguiente(null);
-            cantElementos--;
+            if (getInicio().getSiguiente() == null) { //tiene un solo elemento
+                inicio = null;
+                fin = null;
+            } else {
+                Nodo<T> aux = getInicio();
+
+                while (aux.getSiguiente().getSiguiente() != null) {
+                    aux = aux.getSiguiente();
+                }
+
+                aux.setSiguiente(null);
+                fin = aux;
+                desapilado = aux.getDato();
+                cantElementos--;
+            }
         }
-        return (T) aBorrar;
+        return desapilado;
     }
 
     @Override
@@ -91,6 +102,21 @@ public class Pila<T> implements IPila<T> {
             aux = aux.getSiguiente();
         }
         System.out.println();
+    }
+
+    private void mostrarInversaRecursivo(Nodo<T> nodo) {
+        if (nodo != null) {
+            // Llamada recursiva con el siguiente nodo
+            mostrarInversaRecursivo(nodo.getSiguiente());
+            // Imprime el elemento del nodo actual
+            System.out.println(nodo.getDato());
+        }
+    }
+
+    // Método público para mostrar la pila de forma inversa
+    public void mostrarInversa() {
+        System.out.println("Pila en orden inverso:");
+        mostrarInversaRecursivo(inicio);
     }
 
     @Override

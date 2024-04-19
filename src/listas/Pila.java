@@ -13,19 +13,38 @@ import Interfaces.IPila;
 public class Pila<T> implements IPila<T> {
 
     private Nodo<T> inicio;
+    private Nodo<T> fin;
+    private int cantElementos;
+    private int cantMaxima;
+
+    public Pila() {
+        inicio = null;
+        fin = null;
+        cantElementos = 0;
+        cantMaxima = Integer.MAX_VALUE;
+    }
+
+    public Pila(int cantMax) {
+        inicio = null;
+        fin = null;
+        cantElementos = 0;
+        cantMaxima = cantMax;
+    }
 
     @Override
     public void apilar(T elemento) {
         if (esVacia()) {
-            inicio.setDato(elemento);
+            Nodo<T> nuevo = new Nodo<T>(elemento);
+            inicio = nuevo;
+            fin = nuevo;
+            cantElementos++;
         } else {
-            Nodo aux = getInicio();
-
-            while (aux.getSiguiente() != null) {
-                aux = aux.getSiguiente();
+            if (cantElementos < cantMaxima) {
+                Nodo<T> nuevo = new Nodo<T>(elemento);
+                fin.setSiguiente(nuevo);
+                fin = nuevo;
+                cantElementos++;
             }
-
-            aux.setSiguiente(new Nodo(elemento));
         }
     }
 
@@ -36,6 +55,7 @@ public class Pila<T> implements IPila<T> {
         if (!esVacia()) {
             inicio = getInicio().getSiguiente();
             aBorrar.setSiguiente(null);
+            cantElementos--;
         }
         return (T) aBorrar;
     }
@@ -90,24 +110,31 @@ public class Pila<T> implements IPila<T> {
     @Override
     public Nodo<T> obtenerElemento(T n) {
         Nodo<T> aux = getInicio();
-        Nodo<T> ret = null;
+        Nodo<T> ret = new Nodo(null);
 
-        while (aux != null && ret == null) {
+        while (aux != null && ret.getDato() == null) {
             if (aux.getDato().equals(n)) {
                 ret = aux;
             }
             aux = aux.getSiguiente();
         }
+
         return ret;
     }
 
     @Override
     public void vaciar() {
         inicio = null;
+        fin = null;
+        cantElementos = 0;
     }
 
     public Nodo getInicio() {
         return inicio;
+    }
+
+    public Nodo getFin() {
+        return fin;
     }
 
 }

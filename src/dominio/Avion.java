@@ -16,7 +16,8 @@ public class Avion {
     private String nomAerolinea;
     private String codAvion;
     private int capacidadMax;
-    private Cola<Vuelo> vuelos;
+    private Cola<Vuelo> vuelos; //Factible cambiarlo a la clase sistema debido a que no pueden haber dos codigos de vuelos iguales en el sistema (1.7 Error 1)
+                                //1.7 Error 3 "En caso de que el código de avión no exista dentro de la aerolínea" reafirma la necesidad de tener aviones dentro de la aerolinea
 
     public Avion(String nomAerolinea, String codAvion, int capacidadMax) {
         this.nomAerolinea = nomAerolinea;

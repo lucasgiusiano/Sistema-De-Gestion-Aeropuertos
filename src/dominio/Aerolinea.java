@@ -16,7 +16,8 @@ public class Aerolinea implements Comparable<Aerolinea> {
     private String nombre;
     private String pais;
     private int cantMaxAviones;
-    private ListaSimple<Avion> aviones;
+    private ListaSimple<Avion> aviones; //Util para buscar aviones que tiene la aerolinea para saber si se puede agregar un avión
+                                        //"2.2. Listar Aviones" pide listar los aviones de una aerolinea especifica
 
     public Aerolinea(String nombre, String pais, int cantMaxAviones) {
         this.nombre = nombre;

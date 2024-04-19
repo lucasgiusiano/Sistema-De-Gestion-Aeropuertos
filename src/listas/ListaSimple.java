@@ -5,9 +5,22 @@ import Interfaces.ILista;
 public class ListaSimple<T> implements ILista<T> {
 
     private Nodo<T> inicio;
+    private Nodo<T> fin;
+    private int cantElementos;
+    private int cantMaxima;
 
     public ListaSimple() {
         inicio = null;
+        fin = null;
+        cantElementos = 0;
+        cantMaxima = Integer.MAX_VALUE;
+    }
+
+    public ListaSimple(int cantMax) {
+        inicio = null;
+        fin = null;
+        cantElementos = 0;
+        cantMaxima = cantMax;
     }
 
     @Override
@@ -18,10 +31,17 @@ public class ListaSimple<T> implements ILista<T> {
     @Override
     public void agregarInicio(T n) {
 
-        Nodo<T> nuevo = new Nodo(n);
+        if (cantElementos < cantMaxima) {
+            Nodo<T> nuevo = new Nodo(n);
 
-        nuevo.setSiguiente(getInicio());
-        inicio = nuevo;
+            nuevo.setSiguiente(getInicio());
+            inicio = nuevo;
+            cantElementos++;
+
+            if (cantElementos == 1) {
+                fin = inicio;
+            }
+        }
     }
 
     @Override
@@ -30,13 +50,12 @@ public class ListaSimple<T> implements ILista<T> {
         if (esVacia()) {
             agregarInicio(n);
         } else {
-            Nodo aux = getInicio();
-
-            while (aux.getSiguiente() != null) {
-                aux = aux.getSiguiente();
+            if (cantElementos < cantMaxima) {
+                Nodo<T> nuevo = new Nodo<T>(n);
+                fin.setSiguiente(nuevo);
+                fin = nuevo;
+                cantElementos++;
             }
-
-            aux.setSiguiente(new Nodo(n));
         }
     }
 
@@ -44,17 +63,21 @@ public class ListaSimple<T> implements ILista<T> {
     public void borrarInicio() {
 
         if (!esVacia()) {
-
-            Nodo<T> aBorrar = getInicio();
-            inicio = getInicio().getSiguiente();
-            aBorrar.setSiguiente(null);
+            if (cantElementos == 1) {
+                fin = null;
+                inicio = null;
+            } else {
+                Nodo<T> aBorrar = getInicio();
+                inicio = getInicio().getSiguiente();
+                aBorrar.setSiguiente(null);
+            }
+            cantElementos--;
         }
     }
 
     @Override
     public void borrarFin() {
         if (!esVacia()) {
-
             if (getInicio().getSiguiente() == null) { //tiene un solo elemento
                 borrarInicio();
             } else {
@@ -65,6 +88,8 @@ public class ListaSimple<T> implements ILista<T> {
                 }
 
                 aux.setSiguiente(null);
+                fin = aux;
+                cantElementos--;
             }
         }
     }
@@ -72,6 +97,8 @@ public class ListaSimple<T> implements ILista<T> {
     @Override
     public void vaciar() {
         inicio = null;
+        fin = null;
+        cantElementos = 0;
     }
 
     @Override
@@ -102,30 +129,17 @@ public class ListaSimple<T> implements ILista<T> {
     }
 
     @Override
-    public int cantElementos() {
-
-        Nodo<T> aux = getInicio();
-        int cant = 0;
-
-        while (aux != null) {
-            cant++;
-            aux = aux.getSiguiente();
-        }
-        return cant;
-
-    }
-
-    @Override
     public Nodo<T> obtenerElemento(T n) {
         Nodo<T> aux = getInicio();
-        Nodo<T> ret = null;
+        Nodo<T> ret = new Nodo(null);
 
-        while (aux != null && ret == null) {
+        while (aux != null && ret.getDato() == null) {
             if (aux.getDato().equals(n)) {
                 ret = aux;
             }
             aux = aux.getSiguiente();
         }
+
         return ret;
     }
 
@@ -134,7 +148,7 @@ public class ListaSimple<T> implements ILista<T> {
 
         if (!esVacia()) {
 
-            if (getInicio().getDato() == n) { //es el primero             
+            if (getInicio().getDato().equals(n)) { //es el primero             
                 borrarInicio();
             } else {
 
@@ -145,12 +159,13 @@ public class ListaSimple<T> implements ILista<T> {
                 }
 
                 if (aux.getSiguiente() != null) {
-
                     Nodo<T> aBorrar = aux.getSiguiente();
                     aux.setSiguiente(aBorrar.getSiguiente());
                     aBorrar.setSiguiente(null);
+                    cantElementos--;
+                } else {
+                    borrarFin();
                 }
-
             }
         }
     }
@@ -182,8 +197,17 @@ public class ListaSimple<T> implements ILista<T> {
     /**
      * @return the inicio
      */
-    public Nodo getInicio() {
+    @Override
+    public int cantElementos() {
+        return cantElementos;
+    }
+
+    public Nodo<T> getInicio() {
         return inicio;
+    }
+
+    public Nodo<T> getFin() {
+        return fin;
     }
 
 }

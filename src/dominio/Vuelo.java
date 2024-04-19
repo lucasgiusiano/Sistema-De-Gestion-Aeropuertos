@@ -27,6 +27,8 @@ public class Vuelo {
     private ListaSimple<Pasaje> pasajesPClaseVendidos;
     private ListaSimple<Pasaje> pasajesPClasePendientes;
     private ListaSimple<Pasaje> pasajesPClaseDevueltos;
+    
+    //Para el control de pasajes vendidos, devueltos y pendientes es necesario llevar el control dentro de cada vuelo con sus listas
 
     public Vuelo(String codigoVuelo, String aerolinea, String codAvion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
         this.codigoVuelo = codigoVuelo;

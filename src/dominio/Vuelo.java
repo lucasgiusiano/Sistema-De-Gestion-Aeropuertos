@@ -10,7 +10,7 @@ import listas.ListaSimple;
  *
  * @author Lucas
  */
-public class Vuelo {
+public class Vuelo implements Comparable<Avion>{
 
     private String codigoVuelo;
     private String aerolinea;
@@ -125,5 +125,10 @@ public class Vuelo {
         if (cantPasajesPClase < 3 || (cantPasajesPClase % 3) != 0) {
             throw new Exception("La cantidad de pasajes de tipo primera clase debe ser superior a tres y multiplo de este");
         }
+    }
+
+    @Override
+    public int compareTo(Avion o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

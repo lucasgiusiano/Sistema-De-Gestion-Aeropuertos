@@ -10,11 +10,11 @@ import sistemaAutogestion.Retorno.Resultado;
 public class Sistema implements IObligatorio {
 
     public ListaSimple<Aerolinea> aerolineas; //"2.1. Listar Aerolíneas" pide listar todas las aerolineas del SISTEMA (Se listan las aerolíneas ordenadas alfabéticamente.)
-    public ListaSimple<Cliente> clientes; //"2.3. Listar Clientes" pide listar todos los clientes del SISTEMA (el último registrado debe mostrarse primero)
-    public ListaSimple<Vuelo> vuelos; //"2.4. Listar Vuelos" pide listar todos los vuelos del SISTEMA
-                                      //"2.6. Reporte de pasajes devueltos" pide buscar todos los pasajes devueltos de una aerolinea la lista general
-                                      //facilitaria ingresar a la lista de vuelos con el nombre de la aerolinea y extraer de estos toda su lista de pasajes devueltos
-    
+   // public ListaSimple<Cliente> clientes; //"2.3. Listar Clientes" pide listar todos los clientes del SISTEMA (el último registrado debe mostrarse primero)
+   // public ListaSimple<Vuelo> vuelos; //"2.4. Listar Vuelos" pide listar todos los vuelos del SISTEMA
+    //"2.6. Reporte de pasajes devueltos" pide buscar todos los pasajes devueltos de una aerolinea la lista general
+    //facilitaria ingresar a la lista de vuelos con el nombre de la aerolinea y extraer de estos toda su lista de pasajes devueltos
+
     public Sistema() {
         aerolineas = new ListaSimple<Aerolinea>();
     }
@@ -37,7 +37,7 @@ public class Sistema implements IObligatorio {
             ret = ret.ERROR_2;
         } else {
             ret = ret.OK;
-            aerolineas.agregarFinal(nueva);
+            aerolineas.agregarOrd(nueva);
         }
 
         return new Retorno(ret);
@@ -46,7 +46,7 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno eliminarAerolinea(String nombre) {
         Resultado ret = null;
-       
+
         Aerolinea aBorrar = aerolineas.obtenerElemento(new Aerolinea(nombre)).getDato();
 
         if (aBorrar == null) {
@@ -89,18 +89,21 @@ public class Sistema implements IObligatorio {
         Resultado ret = null;
 
         Aerolinea aerolinea = aerolineas.obtenerElemento(new Aerolinea(nomAerolinea)).getDato();
-        Avion aBorar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea.getNombre())).getDato();
 
         if (aerolinea == null) {
             ret = ret.ERROR_1;
-        } else if (aBorar == null) {
-            ret = ret.ERROR_2;
-        } else if (aBorar.getVuelos().cantElementos() > 0) {
-            ret = ret.ERROR_3;
         } else {
-            ret = ret.OK;
-            aerolinea.getAviones().borrarElemento(aBorar);
+            Avion aBorar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea.getNombre())).getDato();
+            if (aBorar == null) {
+                ret = ret.ERROR_2;
+            } else if (aBorar.getVuelos().cantElementos() > 0) {
+                ret = ret.ERROR_3;
+            } else {
+                ret = ret.OK;
+                aerolinea.getAviones().borrarElemento(aBorar);
+            }
         }
+
         return new Retorno(ret);
     }
 
@@ -128,6 +131,7 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno listarAerolineas() {
 
+        aerolineas.mostrar();
         return Retorno.ok();
     }
 

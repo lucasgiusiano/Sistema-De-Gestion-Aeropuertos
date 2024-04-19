@@ -11,7 +11,7 @@ import listas.Cola;
  *
  * @author Lucas
  */
-public class Avion {
+public class Avion implements Comparable<Avion> {
 
     private String nomAerolinea;
     private String codAvion;
@@ -76,5 +76,10 @@ public class Avion {
      @Override
     public String toString() {
         return codAvion + " - " + capacidadMax;
+    }
+
+    @Override
+    public int compareTo(Avion o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

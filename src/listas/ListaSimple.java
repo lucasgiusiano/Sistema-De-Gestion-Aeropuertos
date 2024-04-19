@@ -2,7 +2,7 @@ package listas;
 
 import Interfaces.ILista;
 
-public class ListaSimple<T> implements ILista<T> {
+public class ListaSimple<T extends Comparable> implements ILista<T> {
 
     private Nodo<T> inicio;
     private Nodo<T> fin;
@@ -106,7 +106,7 @@ public class ListaSimple<T> implements ILista<T> {
         Nodo<T> aux = getInicio();
 
         while (aux != null) {
-            System.out.print(aux.getDato().toString() + " ");
+            System.out.print(aux.getDato().toString() + "|\n");
             aux = aux.getSiguiente();
         }
         System.out.println();
@@ -172,31 +172,32 @@ public class ListaSimple<T> implements ILista<T> {
 
     @Override
     public void agregarOrd(T n) {
-        /*if (esVacia() || n.getDato().compareTo(getInicio().getDato()) > 0) { //Es el primero
+
+        Nodo<T> aux = getInicio();
+
+        if (aux == null || aux.getDato().compareTo(n) >= 0) { //Es el primero
             agregarInicio(n);
+            cantElementos++;
         } else {
 
-            Nodo<T> aux = getInicio();
-
-            while (aux.getSiguiente() != null && aux.getSiguiente().getDato() < n) {
+            while (aux.getSiguiente() != null && aux.getSiguiente().getDato().compareTo(n) < 0) {
                 aux = aux.getSiguiente();
             }
 
             if (aux.getSiguiente() == null) {  //Es el último
                 agregarFinal(n);
+                cantElementos++;
             } else {
 
                 Nodo<T> nuevo = new Nodo(n);
                 nuevo.setSiguiente(aux.getSiguiente());
                 aux.setSiguiente(nuevo);
+                cantElementos++;
             }
         }
-         */
+
     }
 
-    /**
-     * @return the inicio
-     */
     @Override
     public int cantElementos() {
         return cantElementos;

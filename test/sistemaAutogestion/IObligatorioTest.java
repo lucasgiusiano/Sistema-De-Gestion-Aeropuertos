@@ -26,6 +26,7 @@ public class IObligatorioTest {
         miSistema.crearAerolinea("Delta", "Estados Unidos", 2);
         miSistema.crearAerolinea("Volaris", "Mexico", 8);
         miSistema.crearAerolinea("Avianca", "Colombia", 5);
+
         miSistema.registrarAvion("AAA123", 21, "Avianca");
         miSistema.registrarAvion("AAA123", 9, "Delta");
         miSistema.registrarAvion("AAA125", 21, "Delta");
@@ -43,7 +44,7 @@ public class IObligatorioTest {
 
         Retorno r = miSistema.crearAerolinea("Gol", "Brasil", 10);
         assertEquals(Retorno.ok().resultado, r.resultado);
-        r = miSistema.crearAerolinea("Aerolinea Argentina", "Argentina", 8);
+        r = miSistema.crearAerolinea("Aerolineas Argentina", "Argentina", 8);
         assertEquals(Retorno.ok().resultado, r.resultado);
         r = miSistema.crearAerolinea("Iberia", "España", 18);
         assertEquals(Retorno.ok().resultado, r.resultado);
@@ -54,18 +55,18 @@ public class IObligatorioTest {
 
     @Test
     public void testCrearAerolineaERROR1() {
-        Retorno r = miSistema.crearAerolinea("Latam", "Chile", 0);
-        assertEquals(Retorno.error2().resultado, r.resultado);
-        r = miSistema.crearAerolinea("VivaAerobus", "Mexico", -1);
-        assertEquals(Retorno.error2().resultado, r.resultado);
-    }
-
-    @Test
-    public void testCrearAerolineaERROR2() {
         Retorno r = miSistema.crearAerolinea("Delta", "Uruguay", 5);
         assertEquals(Retorno.error1().resultado, r.resultado);
         r = miSistema.crearAerolinea("Volaris", "Estados Unidos", 6);
         assertEquals(Retorno.error1().resultado, r.resultado);
+    }
+
+    @Test
+    public void testCrearAerolineaERROR2() {
+        Retorno r = miSistema.crearAerolinea("Latam", "Chile", 0);
+        assertEquals(Retorno.error2().resultado, r.resultado);
+        r = miSistema.crearAerolinea("VivaAerobus", "Mexico", -1);
+        assertEquals(Retorno.error2().resultado, r.resultado);
     }
 
     @Test
@@ -79,6 +80,7 @@ public class IObligatorioTest {
         Retorno r = miSistema.eliminarAerolinea("Air Europa");
         assertEquals(Retorno.error1().resultado, r.resultado);
     }
+
     @Test
     public void testEliminarAerolineaERROR2() {
         Retorno r = miSistema.eliminarAerolinea("Avianca");
@@ -95,23 +97,36 @@ public class IObligatorioTest {
         assertEquals(Retorno.ok().resultado, r.resultado);
         r = miSistema.registrarAvion("AAEB123", 30, "Avianca");
         assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarAvion("AAA125", 30, "Volaris");
+        assertEquals(Retorno.ok().resultado, r.resultado);
     }
 
     @Test
-    public void testRegistrarAvionERRO1() {
+    public void testRegistrarAvionERROR1() {
         Retorno r = miSistema.registrarAvion("AAA123", 15, "Avianca");
+        assertEquals(Retorno.error1().resultado, r.resultado);
+        r = miSistema.registrarAvion("AAA123", 9, "Delta");
         assertEquals(Retorno.error1().resultado, r.resultado);
     }
 
     @Test
-    public void testRegistrarAvionERRO2() {
+    public void testRegistrarAvionERROR2() {
+        Retorno r = miSistema.registrarAvion("AACA312", 8, "Volaris");
+        assertEquals(Retorno.error2().resultado, r.resultado);
+        r = miSistema.registrarAvion("AACB123", 25, "Volaris");
+        assertEquals(Retorno.error2().resultado, r.resultado);
+    }
+
+    @Test
+    public void testRegistrarAvionERROR3() {
         Retorno r = miSistema.registrarAvion("AAA312", 9, "Tap Airlines");
         assertEquals(Retorno.error3().resultado, r.resultado);
         r = miSistema.registrarAvion("AAB123", 24, "Air Europa");
         assertEquals(Retorno.error3().resultado, r.resultado);
     }
+
     @Test
-    public void testRegistrarAvionERRO4() {
+    public void testRegistrarAvionERROR4() {
         Retorno r = miSistema.registrarAvion("AAA31223", 9, "Delta");
         assertEquals(Retorno.error4().resultado, r.resultado);
     }
@@ -122,24 +137,23 @@ public class IObligatorioTest {
         assertEquals(Retorno.ok().resultado, r.resultado);
     }
 
-    /**
-     *
-     *
-     *
-     * @Test public void testEliminarAvionERROR1() { Retorno r =
-     * miSistema.eliminarAvion("JJ","AAA123" );
-     * assertEquals(Retorno.error1().resultado, r.resultado); }
-     *
-     * @Test public void testEliminarAvionERROR2() { Retorno r =
-     * miSistema.eliminarAvion("Avianca","AA323A123" );
-     * assertEquals(Retorno.error2().resultado, r.resultado); }
-     *
-     * @Test public void testEliminarAvionERROR3() { Retorno r =
-     * miSistema.eliminarAvion("Avianca","AAA123" );
-     * assertEquals(Retorno.error3().resultado, r.resultado); }
-     *
-     *
-     */
+    @Test
+    public void testEliminarAvionERROR1() {
+        Retorno r = miSistema.eliminarAvion("JJ", "AAA123");
+        assertEquals(Retorno.error1().resultado, r.resultado);
+    }
+
+    @Test
+    public void testEliminarAvionERROR2() {
+        Retorno r = miSistema.eliminarAvion("Avianca", "AA323A123");
+        assertEquals(Retorno.error2().resultado, r.resultado);
+    }
+
+    //@Test
+    //public void testEliminarAvionERROR3() {
+    //    Retorno r= miSistema.eliminarAvion("Avianca", "AAA123");
+    //    assertEquals(Retorno.error3().resultado, r.resultado);
+    //}
     @Test
     public void testRegistrarCliente() {
         //Completar para segunda entrega
@@ -161,13 +175,25 @@ public class IObligatorioTest {
     }
 
     @Test
-    public void testListarAerolineas() {
-        //Completar para primera entrega
+    public void testListarAerolineasOK() {
+        Retorno r = miSistema.listarAerolineas();
+        assertEquals(Retorno.ok().resultado, r.resultado);
     }
 
     @Test
-    public void testListarAvionesDeAerolinea() {
-        //Completar para primera entrega
+    public void testListarAvionesDeAerolineaOK() {
+        Retorno r = miSistema.listarAvionesDeAerolinea("Delta");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.listarAvionesDeAerolinea("Avianca");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+    }
+
+    @Test
+    public void testListarAvionesDeAerolineaERROR1() {
+        Retorno r = miSistema.listarAvionesDeAerolinea("Air Europa");
+        assertEquals(Retorno.error1().resultado, r.resultado);
+        r = miSistema.listarAvionesDeAerolinea("Tal Airlines");
+        assertEquals(Retorno.error1().resultado, r.resultado);
     }
 
     @Test

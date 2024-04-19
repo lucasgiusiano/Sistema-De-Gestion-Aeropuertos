@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/dominio/Avion.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/sistemaAutogestion/Sistema.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/listas/Cola.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/listas/Pila.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/test/sistemaAutogestion/IObligatorioTest.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/sistemaAutogestion/IObligatorio.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/listas/ListaSimple.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/dominio/Aerolinea.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/dominio/Vuelo.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/dominio/Cliente.java</file>
-            <file>file:/C:/Users/Usuario/Desktop/Proyecto%20AyED/Sistema-De-Gestion-Aeropuertos/src/dominio/Pasaje.java</file>
+            <file>file:/C:/Users/it/Documents/GitHub/Sistema-De-Gestion-Aeropuertos/src/listas/ListaSimple.java</file>
+            <file>file:/C:/Users/it/Documents/GitHub/Sistema-De-Gestion-Aeropuertos/src/sistemaAutogestion/Retorno.java</file>
+            <file>file:/C:/Users/it/Documents/GitHub/Sistema-De-Gestion-Aeropuertos/src/sistemaAutogestion/Sistema.java</file>
+            <file>file:/C:/Users/it/Documents/GitHub/Sistema-De-Gestion-Aeropuertos/src/sistemaAutogestion/IObligatorio.java</file>
+            <file>file:/C:/Users/it/Documents/GitHub/Sistema-De-Gestion-Aeropuertos/test/sistemaAutogestion/IObligatorioTest.java</file>
         </group>
     </open-files>
 </project-private>

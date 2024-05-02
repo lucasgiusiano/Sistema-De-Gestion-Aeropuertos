@@ -8,7 +8,7 @@ package dominio;
  *
  * @author Lucas
  */
-public class Pasaje implements Comparable<Avion>{
+public class Pasaje implements Comparable<Pasaje>{
     private String pasaporteCliente;
     private String codigoVuelo;
     private int categoriaPasaje;
@@ -50,7 +50,7 @@ public class Pasaje implements Comparable<Avion>{
     }
 
     @Override
-    public int compareTo(Avion o) {
+    public int compareTo(Pasaje o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -18,7 +18,8 @@ public class Sistema implements IObligatorio {
     public Sistema() {
         aerolineas = new ListaSimple<Aerolinea>();
     }
-
+    
+    
     @Override
     public Retorno crearSistemaDeGestion() {
         aerolineas = new ListaSimple<Aerolinea>();

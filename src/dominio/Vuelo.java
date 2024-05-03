@@ -12,9 +12,9 @@ import listas.ListaSimple;
  */
 public class Vuelo implements Comparable<Avion>{
 
-    private String codigoVuelo;
-    private String aerolinea;
-    private String codAvion;
+    private Vuelo vuelo;
+    private Aerolinea aerolinea;
+    private Avion avion;
     private String paisDestino;
     private int dia;
     private int mes;
@@ -30,10 +30,10 @@ public class Vuelo implements Comparable<Avion>{
     
     //Para el control de pasajes vendidos, devueltos y pendientes es necesario llevar el control dentro de cada vuelo con sus listas
 
-    public Vuelo(String codigoVuelo, String aerolinea, String codAvion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
-        this.codigoVuelo = codigoVuelo;
+    public Vuelo(Vuelo vuelo, Aerolinea aerolinea, Avion avion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
+        this.vuelo = vuelo;
         this.aerolinea = aerolinea;
-        this.codAvion = codAvion;
+        this.avion = avion;
         this.paisDestino = paisDestino;
         this.dia = dia;
         this.mes = mes;
@@ -42,28 +42,28 @@ public class Vuelo implements Comparable<Avion>{
         this.cantPasajesPClase = cantPasajesPClase;
     }
 
-    public String getCodigoVuelo() {
-        return codigoVuelo;
+    public Vuelo getVuelo() {
+        return vuelo;
     }
 
-    public void setCodigoVuelo(String codigoVuelo) {
-        this.codigoVuelo = codigoVuelo;
+    public void setVuelo(Vuelo vuelo) {
+        this.vuelo = vuelo;
     }
 
-    public String getAerolinea() {
+    public Aerolinea getAerolinea() {
         return aerolinea;
     }
 
-    public void setAerolinea(String aerolinea) {
+    public void setAerolinea(Aerolinea aerolinea) {
         this.aerolinea = aerolinea;
     }
 
-    public String getCodAvion() {
-        return codAvion;
+    public Avion getAvion() {
+        return avion;
     }
 
-    public void setCodAvion(String codAvion) {
-        this.codAvion = codAvion;
+    public void setAvion(Avion avion) {
+        this.avion = avion;
     }
 
     public String getPaisDestino() {

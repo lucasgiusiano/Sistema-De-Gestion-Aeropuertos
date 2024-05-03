@@ -5,24 +5,27 @@ import dominio.Avion;
 import dominio.Cliente;
 import dominio.Vuelo;
 import listas.ListaSimple;
+import listas.Nodo;
 import sistemaAutogestion.Retorno.Resultado;
 
 public class Sistema implements IObligatorio {
 
     public ListaSimple<Aerolinea> aerolineas; //"2.1. Listar Aerolíneas" pide listar todas las aerolineas del SISTEMA (Se listan las aerolíneas ordenadas alfabéticamente.)
-   // public ListaSimple<Cliente> clientes; //"2.3. Listar Clientes" pide listar todos los clientes del SISTEMA (el último registrado debe mostrarse primero)
-   // public ListaSimple<Vuelo> vuelos; //"2.4. Listar Vuelos" pide listar todos los vuelos del SISTEMA
+    // public ListaSimple<Cliente> clientes; //"2.3. Listar Clientes" pide listar todos los clientes del SISTEMA (el último registrado debe mostrarse primero)
+    public ListaSimple<Vuelo> vuelos; //"2.4. Listar Vuelos" pide listar todos los vuelos del SISTEMA
     //"2.6. Reporte de pasajes devueltos" pide buscar todos los pasajes devueltos de una aerolinea la lista general
     //facilitaria ingresar a la lista de vuelos con el nombre de la aerolinea y extraer de estos toda su lista de pasajes devueltos
 
     public Sistema() {
         aerolineas = new ListaSimple<Aerolinea>();
+        vuelos = new ListaSimple<Vuelo>();
+
     }
-    
-    
+
     @Override
     public Retorno crearSistemaDeGestion() {
         aerolineas = new ListaSimple<Aerolinea>();
+        vuelos = new ListaSimple<Vuelo>();
         return Retorno.ok();
     }
 
@@ -66,9 +69,9 @@ public class Sistema implements IObligatorio {
     public Retorno registrarAvion(String codigo, int capacidadMax, String nomAerolinea) {
         Resultado ret = null;
 
-        Avion nueva = new Avion(nomAerolinea, codigo, capacidadMax);
-
         Aerolinea aerolinea = aerolineas.obtenerElemento(new Aerolinea(nomAerolinea)).getDato();
+
+        Avion nueva = new Avion(aerolinea, codigo, capacidadMax);
 
         if (capacidadMax < 9 || capacidadMax % 3 != 0) {
             ret = ret.ERROR_2;
@@ -94,14 +97,14 @@ public class Sistema implements IObligatorio {
         if (aerolinea == null) {
             ret = ret.ERROR_1;
         } else {
-            Avion aBorar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea.getNombre())).getDato();
-            if (aBorar == null) {
+            Nodo<Avion> aBorar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea));
+            if (aBorar.getDato()== null) {
                 ret = ret.ERROR_2;
-            } else if (aBorar.getVuelos().cantElementos() > 0) {
+            } else if (contienAvion(aBorar)) {
                 ret = ret.ERROR_3;
             } else {
                 ret = ret.OK;
-                aerolinea.getAviones().borrarElemento(aBorar);
+                aerolinea.getAviones().borrarElemento(aBorar.getDato());
             }
         }
 
@@ -179,4 +182,17 @@ public class Sistema implements IObligatorio {
         return Retorno.noImplementada();
     }
 
+    public boolean contienAvion(Nodo<Avion> avion) {
+
+        boolean contiene = false;
+        Nodo<Vuelo> aux = vuelos.getInicio();
+        while (aux != null && !contiene) {
+            if (aux.getDato().getAvion().equals(avion)) {
+                contiene = true;
+            }
+            aux = aux.getSiguiente();
+        }
+
+        return contiene;
+    }
 }

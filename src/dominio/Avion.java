@@ -5,7 +5,7 @@
 package dominio;
 
 import java.util.Objects;
-import listas.Cola;
+//import listas.Cola;
 
 /**
  *
@@ -13,31 +13,31 @@ import listas.Cola;
  */
 public class Avion implements Comparable<Avion> {
 
-    private String nomAerolinea;
+    private Aerolinea aerolinea;
     private String codAvion;
     private int capacidadMax;
-    private Cola<Vuelo> vuelos; //Factible cambiarlo a la clase sistema debido a que no pueden haber dos codigos de vuelos iguales en el sistema (1.7 Error 1)
+    //private Cola<Vuelo> vuelos; //Factible cambiarlo a la clase sistema debido a que no pueden haber dos codigos de vuelos iguales en el sistema (1.7 Error 1)
                                 //1.7 Error 3 "En caso de que el código de avión no exista dentro de la aerolínea" reafirma la necesidad de tener aviones dentro de la aerolinea
 
-    public Avion(String nomAerolinea, String codAvion, int capacidadMax) {
-        this.nomAerolinea = nomAerolinea;
+    public Avion(Aerolinea aerolinea, String codAvion, int capacidadMax) {
+        this.aerolinea = aerolinea;
         this.codAvion = codAvion;
         this.capacidadMax = capacidadMax;
-        vuelos = new Cola<Vuelo>();
+        //vuelos = new Cola<Vuelo>();
     }
 
-    public Avion(String codAvion, String nomAerolinea) {
+    public Avion(String codAvion, Aerolinea aerolinea) {
         this.codAvion = codAvion;
-        this.nomAerolinea = nomAerolinea;
+        this.aerolinea = aerolinea;
 
     }
 
-    public String getNomAerolinea() {
-        return nomAerolinea;
+    public Aerolinea getAerolinea() {
+        return aerolinea;
     }
 
-    public void setNomAerolinea(String nomAerolinea) {
-        this.nomAerolinea = nomAerolinea;
+    public void setAerolinea(Aerolinea aerolinea) {
+        this.aerolinea = aerolinea;
     }
 
     public String getCodAvion() {
@@ -56,9 +56,6 @@ public class Avion implements Comparable<Avion> {
         this.capacidadMax = capacidadMax;
     }
 
-    public Cola<Vuelo> getVuelos() {
-        return vuelos;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -70,7 +67,7 @@ public class Avion implements Comparable<Avion> {
         }
         Avion otroAvion = (Avion) obj;
         // Solo se compara el nombre para determinar la igualdad
-        return Objects.equals(codAvion, otroAvion.codAvion) && Objects.equals(nomAerolinea, otroAvion.nomAerolinea) ;
+        return Objects.equals(codAvion, otroAvion.codAvion) && Objects.equals(aerolinea.getNombre(), otroAvion.aerolinea.getNombre()) ;
     }
     
      @Override

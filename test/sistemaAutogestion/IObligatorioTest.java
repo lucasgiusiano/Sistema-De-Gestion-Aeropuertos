@@ -145,7 +145,7 @@ public class IObligatorioTest {
 
     @Test
     public void testEliminarAvionERROR2() {
-        Retorno r = miSistema.eliminarAvion("Avianca", "AA323A123");
+        Retorno r = miSistema.eliminarAvion("Avianca", "AA323A12das3");
         assertEquals(Retorno.error2().resultado, r.resultado);
     }
 

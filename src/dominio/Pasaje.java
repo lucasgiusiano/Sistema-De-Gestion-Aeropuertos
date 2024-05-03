@@ -8,31 +8,32 @@ package dominio;
  *
  * @author Lucas
  */
-public class Pasaje implements Comparable<Pasaje>{
-    private String pasaporteCliente;
-    private String codigoVuelo;
+public class Pasaje implements Comparable<Pasaje> {
+
+    private Cliente cliente;
+    private Vuelo vuelo;
     private int categoriaPasaje;
 
-    public Pasaje(String pasaporteCliente, String codigoVuelo, int categoriaPasaje) {
-        this.pasaporteCliente = pasaporteCliente;
-        this.codigoVuelo = codigoVuelo;
+    public Pasaje(Cliente cliente, Vuelo vuelo, int categoriaPasaje) {
+        this.cliente = cliente;
+        this.vuelo = vuelo;
         this.categoriaPasaje = categoriaPasaje;
     }
 
-    public String getPasaporteCliente() {
-        return pasaporteCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setPasaporteCliente(String pasaporteCliente) {
-        this.pasaporteCliente = pasaporteCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public String getCodigoVuelo() {
-        return codigoVuelo;
+    public Vuelo getVuelo() {
+        return vuelo;
     }
 
-    public void setCodigoVuelo(String codigoVuelo) {
-        this.codigoVuelo = codigoVuelo;
+    public void setVuelo(Vuelo vuelo) {
+        this.vuelo = vuelo;
     }
 
     public int getCategoriaPasaje() {
@@ -42,8 +43,8 @@ public class Pasaje implements Comparable<Pasaje>{
     public void setCategoriaPasaje(int categoriaPasaje) {
         this.categoriaPasaje = categoriaPasaje;
     }
-    
-    public void Validar() throws Exception{
+
+    public void Validar() throws Exception {
         if (categoriaPasaje != 1 && categoriaPasaje != 2) {
             throw new Exception("El valor de la categoria solo puede ser 1- Económica, 2- Primera Clase");
         }

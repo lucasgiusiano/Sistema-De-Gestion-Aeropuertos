@@ -97,14 +97,14 @@ public class Sistema implements IObligatorio {
         if (aerolinea == null) {
             ret = ret.ERROR_1;
         } else {
-            Nodo<Avion> aBorar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea));
-            if (aBorar.getDato()== null) {
+            Nodo<Avion> aBorrar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea));
+            if (aBorrar.getDato()== null) {
                 ret = ret.ERROR_2;
-            } else if (contienAvion(aBorar)) {
+            } else if (vuelos.estaElemento(new Vuelo(aBorrar.getDato()))) {
                 ret = ret.ERROR_3;
             } else {
                 ret = ret.OK;
-                aerolinea.getAviones().borrarElemento(aBorar.getDato());
+                aerolinea.getAviones().borrarElemento(aBorrar.getDato());
             }
         }
 
@@ -180,19 +180,5 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno vistaDeVuelo(String codigoVuelo) {
         return Retorno.noImplementada();
-    }
-
-    public boolean contienAvion(Nodo<Avion> avion) {
-
-        boolean contiene = false;
-        Nodo<Vuelo> aux = vuelos.getInicio();
-        while (aux != null && !contiene) {
-            if (aux.getDato().getAvion().equals(avion)) {
-                contiene = true;
-            }
-            aux = aux.getSiguiente();
-        }
-
-        return contiene;
     }
 }

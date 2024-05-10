@@ -102,14 +102,15 @@ public class ListaSimple<T extends Comparable> implements ILista<T> {
     }
 
     @Override
-    public void mostrar() {
+    public String mostrar() {
         Nodo<T> aux = getInicio();
-
+        String lista = "";
         while (aux != null) {
-            System.out.print(aux.getDato().toString() + "|\n");
+              
+            lista+=aux.getDato().toString();
             aux = aux.getSiguiente();
         }
-        System.out.println();
+        return lista.substring(0,lista.length()-1);
     }
 
     @Override

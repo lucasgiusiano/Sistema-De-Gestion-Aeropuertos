@@ -72,7 +72,7 @@ public class Avion implements Comparable<Avion> {
     
      @Override
     public String toString() {
-        return codAvion + " - " + capacidadMax;
+        return codAvion + "-" + capacidadMax + "|\n" ;
     }
 
     @Override

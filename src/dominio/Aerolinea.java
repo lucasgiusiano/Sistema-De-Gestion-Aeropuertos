@@ -90,7 +90,7 @@ public class Aerolinea implements Comparable<Aerolinea> {
 
     @Override
     public String toString() {
-        return nombre + " - " + pais + " - " + cantMaxAviones ;
+        return nombre + "-" + pais + "-" + cantMaxAviones + "|\n" ;
     }
 
 }

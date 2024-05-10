@@ -25,7 +25,7 @@ public interface ILista<T> {
 
     public void vaciar();
 
-    public void mostrar();
+    public String mostrar();
 
     public boolean estaElemento(T n);
 

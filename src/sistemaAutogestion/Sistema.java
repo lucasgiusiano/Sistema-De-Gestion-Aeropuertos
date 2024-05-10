@@ -83,7 +83,7 @@ public class Sistema implements IObligatorio {
             ret = ret.ERROR_4;
         } else {
             ret = ret.OK;
-            aerolinea.getAviones().agregarFinal(nueva);
+            aerolinea.getAviones().agregarInicio(nueva);
         }
         return new Retorno(ret);
     }
@@ -98,7 +98,7 @@ public class Sistema implements IObligatorio {
             ret = ret.ERROR_1;
         } else {
             Nodo<Avion> aBorrar = aerolinea.getAviones().obtenerElemento(new Avion(codAvion, aerolinea));
-            if (aBorrar.getDato()== null) {
+            if (aBorrar.getDato() == null) {
                 ret = ret.ERROR_2;
             } else if (vuelos.estaElemento(new Vuelo(aBorrar.getDato()))) {
                 ret = ret.ERROR_3;
@@ -135,29 +135,31 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno listarAerolineas() {
 
-        aerolineas.mostrar();
-        return Retorno.ok();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        r.valorString = aerolineas.mostrar();
+        return r;
     }
 
     @Override
     public Retorno listarAvionesDeAerolinea(String nombre) {
 
-        Resultado ret = null;
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
 
         Aerolinea aerolinea = aerolineas.obtenerElemento(new Aerolinea(nombre)).getDato();
 
         if (aerolinea == null) {
-            ret = ret.ERROR_1;
+            r = Retorno.error1();
         } else {
-            ret = ret.OK;
-            aerolinea.getAviones().mostrar();
+            r = Retorno.ok();
+            r.valorString = aerolinea.getAviones().mostrar();
         }
-        return new Retorno(ret);
+        return r;
     }
 
     // Aplicar recursivamente
     @Override
     public Retorno listarClientes() {
+
         return Retorno.noImplementada();
     }
 

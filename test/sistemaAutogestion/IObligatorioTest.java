@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class IObligatorioTest {
 
-    private Sistema miSistema;
+     private Sistema miSistema;
 
     public IObligatorioTest() {
     }
@@ -59,6 +59,8 @@ public class IObligatorioTest {
         assertEquals(Retorno.error1().resultado, r.resultado);
         r = miSistema.crearAerolinea("Volaris", "Estados Unidos", 6);
         assertEquals(Retorno.error1().resultado, r.resultado);
+        r = miSistema.crearAerolinea("Avianca", "China", 20);
+        assertEquals(Retorno.error1().resultado, r.resultado);
     }
 
     @Test
@@ -79,11 +81,15 @@ public class IObligatorioTest {
     public void testEliminarAerolineaERROR1() {
         Retorno r = miSistema.eliminarAerolinea("Air Europa");
         assertEquals(Retorno.error1().resultado, r.resultado);
+        r = miSistema.eliminarAerolinea("UX");
+        assertEquals(Retorno.error1().resultado, r.resultado);
     }
 
     @Test
     public void testEliminarAerolineaERROR2() {
         Retorno r = miSistema.eliminarAerolinea("Avianca");
+        assertEquals(Retorno.error2().resultado, r.resultado);
+        r = miSistema.eliminarAerolinea("Delta");
         assertEquals(Retorno.error2().resultado, r.resultado);
     }
 
@@ -178,6 +184,8 @@ public class IObligatorioTest {
     public void testListarAerolineasOK() {
         Retorno r = miSistema.listarAerolineas();
         assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.listarAerolineas();
+        assertEquals("Avianca-Colombia-5|\nDelta-Estados Unidos-2|\nVolaris-Mexico-8|", r.valorString);
     }
 
     @Test
@@ -186,6 +194,8 @@ public class IObligatorioTest {
         assertEquals(Retorno.ok().resultado, r.resultado);
         r = miSistema.listarAvionesDeAerolinea("Avianca");
         assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.listarAvionesDeAerolinea("Delta");
+        assertEquals("AAA125-21|\nAAA123-9|", r.valorString);
     }
 
     @Test

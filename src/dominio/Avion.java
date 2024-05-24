@@ -29,7 +29,10 @@ public class Avion implements Comparable<Avion> {
     public Avion(String codAvion, Aerolinea aerolinea) {
         this.codAvion = codAvion;
         this.aerolinea = aerolinea;
+    }
 
+    public Avion(String codAvion) {
+        this.codAvion = codAvion;
     }
 
     public Aerolinea getAerolinea() {

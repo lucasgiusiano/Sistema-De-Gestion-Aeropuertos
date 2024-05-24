@@ -11,7 +11,7 @@ import listas.ListaSimple;
  *
  * @author Lucas
  */
-public class Vuelo implements Comparable<Avion>{
+public class Vuelo implements Comparable<Avion> {
 
     private String codVuelo;
     private Aerolinea aerolinea;
@@ -28,9 +28,8 @@ public class Vuelo implements Comparable<Avion>{
     private ListaSimple<Pasaje> pasajesPClaseVendidos;
     private ListaSimple<Pasaje> pasajesPClasePendientes;
     private ListaSimple<Pasaje> pasajesPClaseDevueltos;
-    
-    //Para el control de pasajes vendidos, devueltos y pendientes es necesario llevar el control dentro de cada vuelo con sus listas
 
+    //Para el control de pasajes vendidos, devueltos y pendientes es necesario llevar el control dentro de cada vuelo con sus listas
     public Vuelo(String codVuelo, Aerolinea aerolinea, Avion avion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
         this.codVuelo = codVuelo;
         this.aerolinea = aerolinea;
@@ -43,10 +42,20 @@ public class Vuelo implements Comparable<Avion>{
         this.cantPasajesPClase = cantPasajesPClase;
     }
 
+    public Vuelo(int dia, int mes, int año) {
+        this.dia = dia;
+        this.mes = mes;
+        this.año = año;
+    }
+    
+    public Vuelo(String codVuelo) {
+        this.codVuelo = codVuelo;
+    }
+
     public Vuelo(Avion avion) {
         this.avion = avion;
     }
-    
+
     public String getCodVuelo() {
         return codVuelo;
     }
@@ -131,7 +140,7 @@ public class Vuelo implements Comparable<Avion>{
             throw new Exception("La cantidad de pasajes de tipo primera clase debe ser superior a tres y multiplo de este");
         }
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -140,16 +149,20 @@ public class Vuelo implements Comparable<Avion>{
         if (obj == null || getClass() != obj.getClass()) {
             return false; // No son del mismo tipo
         }
-        
+
         Vuelo otroVuelo = (Vuelo) obj;
         // Solo se compara el nombre para determinar la igualdad
-        
+
         if ((this.codVuelo != null && !this.codVuelo.isEmpty()) && (otroVuelo.getCodVuelo() != null && !otroVuelo.getCodVuelo().isEmpty())) {
             return Objects.equals(codVuelo, otroVuelo.codVuelo);
         }
-        
+
+        if ((this.dia != 0 && this.mes != 0 && this.año != 0) && (otroVuelo.getDia() != 0 && otroVuelo.getMes() != 0 && otroVuelo.getAño() != 0)) {
+            return Objects.equals(dia, otroVuelo.dia) && Objects.equals(mes, otroVuelo.mes) && Objects.equals(año, otroVuelo.año);
+        }
+
         return this.avion.equals(otroVuelo.getAvion());
-        
+
     }
 
     @Override

@@ -30,6 +30,12 @@ public class IObligatorioTest {
         miSistema.registrarAvion("AAA123", 21, "Avianca");
         miSistema.registrarAvion("AAA123", 9, "Delta");
         miSistema.registrarAvion("AAA125", 21, "Delta");
+        
+        miSistema.registrarCliente("A1B2C3D", "Lucas Giusiano", 23);
+        miSistema.registrarCliente("X4Y5Z6A", "Santiago Mieres", 30);
+        miSistema.registrarCliente("B7C8D9E", "Federico Perez", 56);
+        
+        
     }
 
     @Test
@@ -163,6 +169,8 @@ public class IObligatorioTest {
     @Test
     public void testRegistrarCliente() {
         //Completar para segunda entrega
+        Retorno r = miSistema.registrarCliente("F1G2H3I", "Rels B", 25);
+        assertEquals(Retorno.ok().resultado, r.resultado);
     }
 
     @Test

@@ -4,6 +4,8 @@
  */
 package dominio;
 
+import java.util.Objects;
+
 /**
  *
  * @author Lucas
@@ -18,6 +20,10 @@ public class Pasaje implements Comparable<Pasaje> {
         this.cliente = cliente;
         this.vuelo = vuelo;
         this.categoriaPasaje = categoriaPasaje;
+    }
+
+    public Pasaje(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Cliente getCliente() {
@@ -54,4 +60,21 @@ public class Pasaje implements Comparable<Pasaje> {
     public int compareTo(Pasaje o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pasaje other = (Pasaje) obj;
+        return Objects.equals(this.cliente.getPasaporte(), other.cliente.getPasaporte());
+    }
+    
+    
 }

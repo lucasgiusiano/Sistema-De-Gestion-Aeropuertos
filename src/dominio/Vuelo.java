@@ -42,10 +42,11 @@ public class Vuelo implements Comparable<Avion> {
         this.cantPasajesPClase = cantPasajesPClase;
     }
 
-    public Vuelo(int dia, int mes, int año) {
+    public Vuelo(int dia, int mes, int año, Avion avion) {
         this.dia = dia;
         this.mes = mes;
         this.año = año;
+        this.avion = avion;
     }
     
     public Vuelo(String codVuelo) {
@@ -128,6 +129,56 @@ public class Vuelo implements Comparable<Avion> {
         this.cantPasajesPClase = cantPasajesPClase;
     }
 
+    public ListaSimple<Pasaje> getPasajesEconVendidos() {
+        return pasajesEconVendidos;
+    }
+
+    public void setPasajesEconVendidos(ListaSimple<Pasaje> pasajesEconVendidos) {
+        this.pasajesEconVendidos = pasajesEconVendidos;
+    }
+
+    public ListaSimple<Pasaje> getPasajesEconPendientes() {
+        return pasajesEconPendientes;
+    }
+
+    public void setPasajesEconPendientes(ListaSimple<Pasaje> pasajesEconPendientes) {
+        this.pasajesEconPendientes = pasajesEconPendientes;
+    }
+
+    public ListaSimple<Pasaje> getPasajesEconDevueltos() {
+        return pasajesEconDevueltos;
+    }
+
+    public void setPasajesEconDevueltos(ListaSimple<Pasaje> pasajesEconDevueltos) {
+        this.pasajesEconDevueltos = pasajesEconDevueltos;
+    }
+
+    public ListaSimple<Pasaje> getPasajesPClaseVendidos() {
+        return pasajesPClaseVendidos;
+    }
+
+    public void setPasajesPClaseVendidos(ListaSimple<Pasaje> pasajesPClaseVendidos) {
+        this.pasajesPClaseVendidos = pasajesPClaseVendidos;
+    }
+
+    public ListaSimple<Pasaje> getPasajesPClasePendientes() {
+        return pasajesPClasePendientes;
+    }
+
+    public void setPasajesPClasePendientes(ListaSimple<Pasaje> pasajesPClasePendientes) {
+        this.pasajesPClasePendientes = pasajesPClasePendientes;
+    }
+
+    public ListaSimple<Pasaje> getPasajesPClaseDevueltos() {
+        return pasajesPClaseDevueltos;
+    }
+
+    public void setPasajesPClaseDevueltos(ListaSimple<Pasaje> pasajesPClaseDevueltos) {
+        this.pasajesPClaseDevueltos = pasajesPClaseDevueltos;
+    }
+    
+    
+
     public void rellenar() {
 
     }
@@ -157,8 +208,9 @@ public class Vuelo implements Comparable<Avion> {
             return Objects.equals(codVuelo, otroVuelo.codVuelo);
         }
 
-        if ((this.dia != 0 && this.mes != 0 && this.año != 0) && (otroVuelo.getDia() != 0 && otroVuelo.getMes() != 0 && otroVuelo.getAño() != 0)) {
-            return Objects.equals(dia, otroVuelo.dia) && Objects.equals(mes, otroVuelo.mes) && Objects.equals(año, otroVuelo.año);
+        if ((this.dia != 0 && this.mes != 0 && this.año != 0) && (otroVuelo.getDia() != 0 && otroVuelo.getMes() != 0 && otroVuelo.getAño() != 0) 
+                && this.avion != null && otroVuelo.getAvion() != null) {
+            return Objects.equals(dia, otroVuelo.dia) && Objects.equals(mes, otroVuelo.mes) && Objects.equals(año, otroVuelo.año) && avion.equals(otroVuelo.getAvion());
         }
 
         return this.avion.equals(otroVuelo.getAvion());

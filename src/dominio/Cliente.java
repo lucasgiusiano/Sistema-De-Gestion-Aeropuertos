@@ -5,6 +5,7 @@
 package dominio;
 
 import java.util.Objects;
+import listas.ListaSimple;
 
 /**
  *
@@ -15,12 +16,16 @@ public class Cliente {
     private String pasaporte;
     private String nombre;
     private int edad;
-    // private ListaSimple<Vuelo> vuelosCliente; - "2.5. Listar vuelos de cliente" pide listar los vuelos en los que el cliente compro o compro y devolvio un pasaje
+    private ListaSimple<Vuelo> vuelosCliente; //- "2.5. Listar vuelos de cliente" pide listar los vuelos en los que el cliente compro o compro y devolvio un pasaje
 
     public Cliente(String pasaporte, String nombre, int edad) {
         this.pasaporte = pasaporte;
         this.nombre = nombre;
         this.edad = edad;
+    }
+
+    public Cliente(String pasaporte) {
+        this.pasaporte = pasaporte;
     }
 
     public String getPasaporte() {
@@ -45,6 +50,14 @@ public class Cliente {
 
     public void setEdad(int edad) {
         this.edad = edad;
+    }
+
+    public ListaSimple<Vuelo> getVuelosCliente() {
+        return vuelosCliente;
+    }
+
+    public void setVuelosCliente(ListaSimple<Vuelo> vuelosCliente) {
+        this.vuelosCliente = vuelosCliente;
     }
 
     @Override

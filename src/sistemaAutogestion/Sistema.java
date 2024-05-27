@@ -3,6 +3,7 @@ package sistemaAutogestion;
 import dominio.Aerolinea;
 import dominio.Avion;
 import dominio.Cliente;
+import dominio.Pasaje;
 import dominio.Vuelo;
 import listas.Cola;
 import listas.ListaSimple;
@@ -144,7 +145,7 @@ public class Sistema implements IObligatorio {
             ret = ret.ERROR_2;
         } else if (avionDelVuelo == null) {
             ret = ret.ERROR_3;
-        } else if (vuelos.obtenerElemento(new Vuelo(dia, mes, año)).getDato().getAvion() == avionDelVuelo) { //Revisar
+        } else if (vuelos.estaElemento(new Vuelo(dia, mes, año, avionDelVuelo))) {
             ret = ret.ERROR_4;
         } else if (cantPasajesEcon % 3 != 0 || cantPasajesPClase % 3 != 0) {
             ret = ret.ERROR_5;
@@ -201,20 +202,45 @@ public class Sistema implements IObligatorio {
     public Retorno listarClientes() {
         Retorno r = new Retorno(Retorno.Resultado.OK);
         r.valorString = clientes.mostrar();
-        return Retorno.noImplementada();
+        return r;
     }
 
     @Override
     public Retorno listarVuelos() {
         Retorno r = new Retorno(Retorno.Resultado.OK);
         r.valorString = vuelos.mostrar();
-        return Retorno.noImplementada();
+        return r;
     }
 
     // Aplicar recursivamente
     @Override
     public Retorno vuelosDeCliente(String pasaporte) {
-        return Retorno.noImplementada();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        Cliente buscado = clientes.obtenerElemento(new Cliente(pasaporte)).getDato();
+
+        if (buscado != null) {
+            r.valorString = BuscarVuelosDelCliente(buscado.getVuelosCliente().getInicio(), buscado);
+        }
+
+        return r;
+    }
+
+    public String BuscarVuelosDelCliente(Nodo<Vuelo> nodo, Cliente cliente) {
+        if (nodo == null) {
+            return "";
+        }
+        
+        Pasaje buscado = new Pasaje(cliente);
+        
+        if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado) 
+            || nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClasePendientes().estaElemento(buscado)) {
+            
+            return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
+        }else if(nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)){
+            return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
+        }
+        
+        return BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
     }
 
     @Override

@@ -22,7 +22,7 @@ public interface ICola<T> {
 
     int cantElementos();
 
-    public void mostrar();
+    public String mostrar();
 
     public boolean estaElemento(T n);
 

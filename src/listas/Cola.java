@@ -71,14 +71,15 @@ public class Cola<T> implements ICola<T> {
     }
 
     @Override
-    public void mostrar() {
-        Nodo<T> aux = getInicio();
+    public String mostrar() {
+        return mostrarRecursivo(getInicio());
+    }
 
-        while (aux != null) {
-            System.out.print(aux.getDato() + " ");
-            aux = aux.getSiguiente();
+    private String mostrarRecursivo(Nodo<T> nodo) {
+        if (nodo == null) {
+            return "";
         }
-        System.out.println();
+        return nodo.getDato() + "\n" + mostrarRecursivo(nodo.getSiguiente());
     }
 
     @Override

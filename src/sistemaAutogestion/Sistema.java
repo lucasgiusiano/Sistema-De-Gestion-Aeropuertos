@@ -116,41 +116,41 @@ public class Sistema implements IObligatorio {
     public Retorno registrarCliente(String pasaporte, String nombre, int edad) {
         Resultado ret = null;
         Cliente nuevo = new Cliente(pasaporte, nombre, edad);
-        
+
         if (edad < 0) {
             ret = ret.ERROR_1;
-        }else if (pasaporte.length() != 7 && pasaporte.matches("[a-zA-Z0-9]+")) { // >> pasaporte.matches("[a-zA-Z0-9]+") << Verifica que el pasaportes sea un texto alfanumérico
+        } else if (pasaporte.length() != 7 && pasaporte.matches("[a-zA-Z0-9]+")) { // >> pasaporte.matches("[a-zA-Z0-9]+") << Verifica que el pasaportes sea un texto alfanumérico
             ret = ret.ERROR_2;
-        }else if(clientes.estaElemento(nuevo)){
+        } else if (clientes.estaElemento(nuevo)) {
             ret = ret.ERROR_3;
-        }else{
+        } else {
             clientes.encolar(nuevo);
             ret = ret.OK;
         }
-        
+
         return new Retorno(ret);
     }
 
     @Override
     public Retorno crearVuelo(String codigoVuelo, String aerolinea, String codAvion, String paisDestino, int dia, int mes, int año, int cantPasajesEcon, int cantPasajesPClase) {
         Resultado ret = null;
-        
+
         Aerolinea aerolineaDelVuelo = aerolineas.obtenerElemento(new Aerolinea(aerolinea)).getDato();
         Avion avionDelVuelo = aerolineaDelVuelo.getAviones().obtenerElemento(new Avion(codAvion)).getDato();
-        
-        if(vuelos.estaElemento(new Vuelo(codigoVuelo))){
+
+        if (vuelos.estaElemento(new Vuelo(codigoVuelo))) {
             ret = ret.ERROR_1;
-        }else if(aerolineaDelVuelo == null){
+        } else if (aerolineaDelVuelo == null) {
             ret = ret.ERROR_2;
-        }else if(avionDelVuelo == null){
+        } else if (avionDelVuelo == null) {
             ret = ret.ERROR_3;
-        }else if (vuelos.obtenerElemento(new Vuelo(dia,mes,año)).getDato().getAvion() == avionDelVuelo){ //Revisar
+        } else if (vuelos.obtenerElemento(new Vuelo(dia, mes, año)).getDato().getAvion() == avionDelVuelo) { //Revisar
             ret = ret.ERROR_4;
-        }else if(cantPasajesEcon % 3 != 0 || cantPasajesPClase % 3 != 0){
+        } else if (cantPasajesEcon % 3 != 0 || cantPasajesPClase % 3 != 0) {
             ret = ret.ERROR_5;
-        }else if((cantPasajesEcon + cantPasajesPClase) > avionDelVuelo.getCapacidadMax()){
+        } else if ((cantPasajesEcon + cantPasajesPClase) > avionDelVuelo.getCapacidadMax()) {
             ret = ret.ERROR_6;
-        }else{
+        } else {
             if ((cantPasajesEcon + cantPasajesPClase) < avionDelVuelo.getCapacidadMax()) {
                 cantPasajesEcon += avionDelVuelo.getCapacidadMax() - (cantPasajesEcon + cantPasajesPClase);
             }
@@ -158,7 +158,7 @@ public class Sistema implements IObligatorio {
             vuelos.agregarFinal(nuevo);
             ret = ret.OK;
         }
-        
+
         return new Retorno(ret);
     }
 
@@ -199,12 +199,15 @@ public class Sistema implements IObligatorio {
     // Aplicar recursivamente
     @Override
     public Retorno listarClientes() {
-
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        r.valorString = clientes.mostrar();
         return Retorno.noImplementada();
     }
 
     @Override
     public Retorno listarVuelos() {
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        r.valorString = vuelos.mostrar();
         return Retorno.noImplementada();
     }
 

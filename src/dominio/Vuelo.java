@@ -5,13 +5,14 @@
 package dominio;
 
 import java.util.Objects;
+import listas.Cola;
 import listas.ListaSimple;
 
 /**
  *
  * @author Lucas
  */
-public class Vuelo implements Comparable<Avion> {
+public class Vuelo implements Comparable<Vuelo> {
 
     private String codVuelo;
     private Aerolinea aerolinea;
@@ -23,10 +24,10 @@ public class Vuelo implements Comparable<Avion> {
     private int cantPasajesEcon;
     private int cantPasajesPClase;
     private ListaSimple<Pasaje> pasajesEconVendidos;
-    private ListaSimple<Pasaje> pasajesEconPendientes;
+    private Cola<Pasaje> pasajesEconPendientes;
     private ListaSimple<Pasaje> pasajesEconDevueltos;
     private ListaSimple<Pasaje> pasajesPClaseVendidos;
-    private ListaSimple<Pasaje> pasajesPClasePendientes;
+    private Cola<Pasaje> pasajesPClasePendientes;
     private ListaSimple<Pasaje> pasajesPClaseDevueltos;
 
     //Para el control de pasajes vendidos, devueltos y pendientes es necesario llevar el control dentro de cada vuelo con sus listas
@@ -48,7 +49,7 @@ public class Vuelo implements Comparable<Avion> {
         this.año = año;
         this.avion = avion;
     }
-    
+
     public Vuelo(String codVuelo) {
         this.codVuelo = codVuelo;
     }
@@ -137,11 +138,11 @@ public class Vuelo implements Comparable<Avion> {
         this.pasajesEconVendidos = pasajesEconVendidos;
     }
 
-    public ListaSimple<Pasaje> getPasajesEconPendientes() {
+    public Cola<Pasaje> getPasajesEconPendientes() {
         return pasajesEconPendientes;
     }
 
-    public void setPasajesEconPendientes(ListaSimple<Pasaje> pasajesEconPendientes) {
+    public void setPasajesEconPendientes(Cola<Pasaje> pasajesEconPendientes) {
         this.pasajesEconPendientes = pasajesEconPendientes;
     }
 
@@ -161,11 +162,11 @@ public class Vuelo implements Comparable<Avion> {
         this.pasajesPClaseVendidos = pasajesPClaseVendidos;
     }
 
-    public ListaSimple<Pasaje> getPasajesPClasePendientes() {
+    public Cola<Pasaje> getPasajesPClasePendientes() {
         return pasajesPClasePendientes;
     }
 
-    public void setPasajesPClasePendientes(ListaSimple<Pasaje> pasajesPClasePendientes) {
+    public void setPasajesPClasePendientes(Cola<Pasaje> pasajesPClasePendientes) {
         this.pasajesPClasePendientes = pasajesPClasePendientes;
     }
 
@@ -176,8 +177,6 @@ public class Vuelo implements Comparable<Avion> {
     public void setPasajesPClaseDevueltos(ListaSimple<Pasaje> pasajesPClaseDevueltos) {
         this.pasajesPClaseDevueltos = pasajesPClaseDevueltos;
     }
-    
-    
 
     public void rellenar() {
 
@@ -208,7 +207,7 @@ public class Vuelo implements Comparable<Avion> {
             return Objects.equals(codVuelo, otroVuelo.codVuelo);
         }
 
-        if ((this.dia != 0 && this.mes != 0 && this.año != 0) && (otroVuelo.getDia() != 0 && otroVuelo.getMes() != 0 && otroVuelo.getAño() != 0) 
+        if ((this.dia != 0 && this.mes != 0 && this.año != 0) && (otroVuelo.getDia() != 0 && otroVuelo.getMes() != 0 && otroVuelo.getAño() != 0)
                 && this.avion != null && otroVuelo.getAvion() != null) {
             return Objects.equals(dia, otroVuelo.dia) && Objects.equals(mes, otroVuelo.mes) && Objects.equals(año, otroVuelo.año) && avion.equals(otroVuelo.getAvion());
         }
@@ -218,7 +217,27 @@ public class Vuelo implements Comparable<Avion> {
     }
 
     @Override
-    public int compareTo(Avion o) {
+    public int compareTo(Vuelo o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String toString() {
+        
+        int pasajesEcon = 0;
+        if(this.pasajesEconVendidos !=null)
+        {
+            pasajesEcon = pasajesEconVendidos.cantElementos();
+        }
+            
+        int pasajesPClase = 0;
+        if(this.pasajesPClaseVendidos!=null)
+        {
+            pasajesPClase = pasajesPClaseVendidos.cantElementos();
+        }
+        int pasajesDisponibles = (cantPasajesEcon + cantPasajesPClase) - (pasajesEcon +pasajesPClase);
+
+        return codVuelo + "-" + aerolinea.getNombre() + "-" + avion.getCodAvion() + "-" + pasajesEcon + "-" + pasajesPClase + "-" + pasajesDisponibles + "|\n";
+
     }
 }

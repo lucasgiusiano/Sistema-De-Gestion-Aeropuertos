@@ -5,6 +5,7 @@
 package dominio;
 
 import java.util.Objects;
+import listas.Cola;
 import listas.ListaSimple;
 
 /**
@@ -16,7 +17,7 @@ public class Cliente {
     private String pasaporte;
     private String nombre;
     private int edad;
-    private ListaSimple<Vuelo> vuelosCliente; //- "2.5. Listar vuelos de cliente" pide listar los vuelos en los que el cliente compro o compro y devolvio un pasaje
+    private Cola<Vuelo> vuelosCliente; //- "2.5. Listar vuelos de cliente" pide listar los vuelos en los que el cliente compro o compro y devolvio un pasaje
 
     public Cliente(String pasaporte, String nombre, int edad) {
         this.pasaporte = pasaporte;
@@ -52,11 +53,11 @@ public class Cliente {
         this.edad = edad;
     }
 
-    public ListaSimple<Vuelo> getVuelosCliente() {
+    public Cola<Vuelo> getVuelosCliente() {
         return vuelosCliente;
     }
 
-    public void setVuelosCliente(ListaSimple<Vuelo> vuelosCliente) {
+    public void setVuelosCliente(Cola<Vuelo> vuelosCliente) {
         this.vuelosCliente = vuelosCliente;
     }
 
@@ -71,5 +72,10 @@ public class Cliente {
         Cliente otroCliente = (Cliente) obj;
         // Solo se compara el pasaporte para determinar la igualdad
         return Objects.equals(pasaporte, otroCliente.pasaporte);
+    }
+    
+     @Override
+    public String toString() {
+        return pasaporte + "-" + nombre + "-"+ edad +"|\n" ;
     }
 }

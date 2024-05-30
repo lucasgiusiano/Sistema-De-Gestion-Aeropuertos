@@ -17,7 +17,7 @@ public class Avion implements Comparable<Avion> {
     private String codAvion;
     private int capacidadMax;
     //private Cola<Vuelo> vuelos; //Factible cambiarlo a la clase sistema debido a que no pueden haber dos codigos de vuelos iguales en el sistema (1.7 Error 1)
-                                //1.7 Error 3 "En caso de que el código de avión no exista dentro de la aerolínea" reafirma la necesidad de tener aviones dentro de la aerolinea
+    //1.7 Error 3 "En caso de que el código de avión no exista dentro de la aerolínea" reafirma la necesidad de tener aviones dentro de la aerolinea
 
     public Avion(Aerolinea aerolinea, String codAvion, int capacidadMax) {
         this.aerolinea = aerolinea;
@@ -59,7 +59,6 @@ public class Avion implements Comparable<Avion> {
         this.capacidadMax = capacidadMax;
     }
 
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -69,13 +68,19 @@ public class Avion implements Comparable<Avion> {
             return false; // No son del mismo tipo
         }
         Avion otroAvion = (Avion) obj;
-        // Solo se compara el nombre para determinar la igualdad
-        return Objects.equals(codAvion, otroAvion.codAvion) && Objects.equals(aerolinea.getNombre(), otroAvion.aerolinea.getNombre()) ;
+
+        Aerolinea otraAerolinea = otroAvion.aerolinea;
+
+        if (otraAerolinea != null) {
+            return Objects.equals(codAvion, otroAvion.codAvion) && Objects.equals(aerolinea.getNombre(), otroAvion.aerolinea.getNombre());
+        }
+
+        return Objects.equals(codAvion, otroAvion.codAvion);
     }
-    
-     @Override
+
+    @Override
     public String toString() {
-        return codAvion + "-" + capacidadMax + "|\n" ;
+        return codAvion + "-" + capacidadMax + "|\n";
     }
 
     @Override

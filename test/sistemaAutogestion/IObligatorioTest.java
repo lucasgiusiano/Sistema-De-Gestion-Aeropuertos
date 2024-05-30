@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class IObligatorioTest {
 
-     private Sistema miSistema;
+    private Sistema miSistema;
 
     public IObligatorioTest() {
     }
@@ -30,12 +30,26 @@ public class IObligatorioTest {
         miSistema.registrarAvion("AAA123", 21, "Avianca");
         miSistema.registrarAvion("AAA123", 9, "Delta");
         miSistema.registrarAvion("AAA125", 21, "Delta");
-        
+
         miSistema.registrarCliente("A1B2C3D", "Lucas Giusiano", 23);
         miSistema.registrarCliente("X4Y5Z6A", "Santiago Mieres", 30);
         miSistema.registrarCliente("B7C8D9E", "Federico Perez", 56);
-        
-        
+
+        miSistema.crearVuelo("ALT123", "Avianca", "AAA123", "España", 20, 5, 2024, 15, 6);
+        miSistema.crearVuelo("ALT1234", "Delta", "AAA123", "Francia", 20, 5, 2024, 6, 3);
+         miSistema.crearVuelo("ALT1235", "Avianca", "AAA123", "Italia", 25, 5, 2024, 15, 6);
+
+        miSistema.comprarPasaje("A1B2C3D", "ALT123", 1);
+//        miSistema.comprarPasaje("A1B2C3D", "ALT1234", 2);
+//
+//        miSistema.comprarPasaje("X4Y5Z6A", "ALT123", 1);
+//        miSistema.comprarPasaje("ALT1234", "ALT123", 2);
+//        miSistema.comprarPasaje("X4Y5Z6A", "ALT1234", 1);
+//
+//        miSistema.devolverPasaje("A1B2C3D", "ALT123");
+//        miSistema.devolverPasaje("X4Y5Z6A", "ALT123");
+//        miSistema.devolverPasaje("ALT1234", "ALT123");
+
     }
 
     @Test
@@ -145,7 +159,7 @@ public class IObligatorioTest {
 
     @Test
     public void testEliminarAvionOK() {
-        Retorno r = miSistema.eliminarAvion("Avianca", "AAA123");
+        Retorno r = miSistema.eliminarAvion("Delta", "AAA125");
         assertEquals(Retorno.ok().resultado, r.resultado);
     }
 
@@ -161,31 +175,114 @@ public class IObligatorioTest {
         assertEquals(Retorno.error2().resultado, r.resultado);
     }
 
-    //@Test
-    //public void testEliminarAvionERROR3() {
-    //    Retorno r= miSistema.eliminarAvion("Avianca", "AAA123");
-    //    assertEquals(Retorno.error3().resultado, r.resultado);
-    //}
     @Test
-    public void testRegistrarCliente() {
-        //Completar para segunda entrega
+    public void testEliminarAvionERROR3() {
+        Retorno r = miSistema.eliminarAvion("Avianca", "AAA123");
+        assertEquals(Retorno.error3().resultado, r.resultado);
+    }
+
+    @Test
+    public void testRegistrarClienteOK() {
         Retorno r = miSistema.registrarCliente("F1G2H3I", "Rels B", 25);
         assertEquals(Retorno.ok().resultado, r.resultado);
     }
 
     @Test
-    public void testCrearVuelo() {
-        //Completar para segunda entrega
+    public void testRegistrarClienteERROR1() {
+        Retorno r = miSistema.registrarCliente("F1G2H3I", "Rels BS", -1);
+        assertEquals(Retorno.error1().resultado, r.resultado);
     }
 
     @Test
-    public void testComprarPasaje() {
-        //Completar para segunda entrega
+    public void testRegistrarClienteERROR2() {
+        Retorno r = miSistema.registrarCliente("1G2H3I", "Rels BA", 50);
+        assertEquals(Retorno.error2().resultado, r.resultado);
+        r = miSistema.registrarCliente("1G2H3IAA", "Rels B", 60);
+        assertEquals(Retorno.error2().resultado, r.resultado);
     }
 
     @Test
-    public void testDevolverPasaje() {
-        //Completar para segunda entrega
+    public void testCrearVueloOK() {
+        Retorno r = miSistema.crearVuelo("ALT1DA23", "Delta", "AAA123", "Francia", 20, 7, 2024, 6, 3);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.crearVuelo("ALT1DADA23", "Delta", "AAA123", "España", 19, 8, 2024, 6, 3);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+    }
+
+    @Test
+    public void testCrearVueloERROR1() {
+        Retorno r = miSistema.crearVuelo("ALT123", "Delta", "AAA123", "Francia", 20, 7, 2024, 6, 3);
+        assertEquals(Retorno.error1().resultado, r.resultado);
+    }
+
+    @Test
+    public void testCrearVueloERROR2() {
+        Retorno r = miSistema.crearVuelo("ALT12SDD3", "Copas", "AAA123", "Francia", 20, 7, 2024, 6, 3);
+        assertEquals(Retorno.error2().resultado, r.resultado);
+    }
+
+    @Test
+    public void testCrearVueloERROR3() {
+        Retorno r = miSistema.crearVuelo("ALT1FASF23", "Delta", "AAA1dda23", "Francia", 20, 7, 2024, 6, 3);
+        assertEquals(Retorno.error3().resultado, r.resultado);
+    }
+
+    public void testCrearVueloERROR4() {
+        Retorno r = miSistema.crearVuelo("ALTDADS123", "Avianca", "AAA123", "Italia", 20, 5, 2024, 15, 6);
+        assertEquals(Retorno.error4().resultado, r.resultado);
+    }
+
+    public void testCrearVueloERROR5() {
+        Retorno r = miSistema.crearVuelo("ALTDADS123", "Avianca", "AAA123", "Italia", 25, 6, 2024, 14, 6);
+        assertEquals(Retorno.error5().resultado, r.resultado);
+        r = miSistema.crearVuelo("ALTDADS123", "Avianca", "AAA123", "Italia", 25, 6, 2024, 15, 7);
+        assertEquals(Retorno.error5().resultado, r.resultado);
+        r = miSistema.crearVuelo("ALTDADS123", "Avianca", "AAA123", "Italia", 25, 6, 2024, 16, 5);
+        assertEquals(Retorno.error5().resultado, r.resultado);
+    }
+
+    public void testCrearVueloERROR6() {
+        Retorno r = miSistema.crearVuelo("ALTDADS123", "Avianca", "AAA123", "Italia", 25, 6, 2024, 15, 9);
+        assertEquals(Retorno.error6().resultado, r.resultado);
+    }
+
+    @Test
+    public void testComprarPasajeOK() {
+        Retorno r = miSistema.comprarPasaje("A1B2C3D", "ALT123", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+    }
+
+    public void testComprarPasajeERRO1() {
+        Retorno r = miSistema.comprarPasaje("A1B2CDASD3D", "ALT123", 1);
+        assertEquals(Retorno.error1().resultado, r.resultado);
+    }
+
+    public void testComprarERROR2() {
+        Retorno r = miSistema.comprarPasaje("A1B2C3D", "ALT12DAS3", 1);
+        assertEquals(Retorno.error2().resultado, r.resultado);
+    }
+
+    @Test
+    public void testDevolverPasajeOK() {
+        Retorno r = miSistema.devolverPasaje("X4Y5Z6A", "ALT1234");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+    }
+    
+     @Test
+    public void testDevolverPasajeERROR1() {
+        Retorno r = miSistema.devolverPasaje("X4YAS5Z6A", "ALT1234");
+        assertEquals(Retorno.error1().resultado, r.resultado);
+    }
+      @Test
+    public void testDevolverPasajeERROR2() {
+        Retorno r = miSistema.devolverPasaje("X4Y5Z6A", "ALT1234DAS");
+        assertEquals(Retorno.error2().resultado, r.resultado);
+    }
+    
+     @Test
+    public void testDevolverPasajeERROR3() {
+        Retorno r = miSistema.devolverPasaje("ALT1234", "ALT1234");
+        assertEquals(Retorno.error3().resultado, r.resultado);
     }
 
     @Test
@@ -216,17 +313,23 @@ public class IObligatorioTest {
 
     @Test
     public void testListarClientes() {
-        //Completar para segunda entrega
+        Retorno r = miSistema.listarClientes();
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        assertEquals("B7C8D9E-Federico Perez-56|\nX4Y5Z6A-Santiago Mieres-30|\nA1B2C3D-Lucas Giusiano-23|", r.valorString);
     }
 
     @Test
     public void testListarVuelos() {
-        //Completar para segunda entrega
+        Retorno r = miSistema.listarVuelos();
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        assertEquals("ALT123-Avianca-AAA123-1-0-20|\nALT1234-Delta-AAA123-AAA123-0-1-8|", r.valorString);
     }
 
     @Test
     public void testVuelosDeCliente() {
-        //Completar para segunda entrega
+        Retorno r = miSistema.vuelosDeCliente("A1B2C3D");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        assertEquals("ALT1234-DEV|\nALT123-CPR|", r.valorString);
     }
 
     @Test

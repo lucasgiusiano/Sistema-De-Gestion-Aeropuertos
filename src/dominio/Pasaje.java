@@ -21,6 +21,12 @@ public class Pasaje implements Comparable<Pasaje> {
         this.vuelo = vuelo;
         this.categoriaPasaje = categoriaPasaje;
     }
+    
+    public Pasaje(Cliente cliente, Vuelo vuelo) {
+        this.cliente = cliente;
+        this.vuelo = vuelo;
+    }
+
 
     public Pasaje(Cliente cliente) {
         this.cliente = cliente;
@@ -73,8 +79,13 @@ public class Pasaje implements Comparable<Pasaje> {
             return false;
         }
         final Pasaje other = (Pasaje) obj;
+        
         return Objects.equals(this.cliente.getPasaporte(), other.cliente.getPasaporte());
     }
     
+      @Override
+    public String toString() {
+        return cliente.getPasaporte() + "-" + vuelo.getCodVuelo() + "|\n" ;
+    }
     
 }

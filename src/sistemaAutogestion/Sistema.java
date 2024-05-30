@@ -28,6 +28,7 @@ public class Sistema implements IObligatorio {
     public Retorno crearSistemaDeGestion() {
         aerolineas = new ListaSimple<Aerolinea>();
         vuelos = new ListaSimple<Vuelo>();
+        clientes = new Cola<Cliente>();
         return Retorno.ok();
     }
 
@@ -137,7 +138,11 @@ public class Sistema implements IObligatorio {
         Resultado ret = null;
 
         Aerolinea aerolineaDelVuelo = aerolineas.obtenerElemento(new Aerolinea(aerolinea)).getDato();
-        Avion avionDelVuelo = aerolineaDelVuelo.getAviones().obtenerElemento(new Avion(codAvion)).getDato();
+        Avion avionDelVuelo = null;
+
+        if (aerolineaDelVuelo != null) {
+            avionDelVuelo = aerolineaDelVuelo.getAviones().obtenerElemento(new Avion(codAvion)).getDato();
+        }
 
         if (vuelos.estaElemento(new Vuelo(codigoVuelo))) {
             ret = ret.ERROR_1;
@@ -165,12 +170,125 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno comprarPasaje(String pasaporteCliente, String codigoVuelo, int categoríaPasaje) {
-        return Retorno.noImplementada();
+
+        Resultado ret = null;
+
+        Cliente cliente = clientes.obtenerElemento(new Cliente(pasaporteCliente)).getDato();
+
+        Vuelo vuelo = vuelos.obtenerElemento(new Vuelo(codigoVuelo)).getDato();
+
+        if (cliente == null) {
+            ret = ret.ERROR_1;
+        } else if (vuelo == null) {
+            ret = ret.ERROR_2;
+        } else {
+            Pasaje pasaje = new Pasaje(cliente, vuelo, categoríaPasaje);
+            if (categoríaPasaje == 1) {
+                if (vuelo.getPasajesEconVendidos() != null) {
+                    if (vuelo.getCantPasajesEcon() > vuelo.getPasajesEconVendidos().cantElementos()) {
+                        vuelo.getPasajesEconVendidos().agregarInicio(pasaje);
+                        cliente.getVuelosCliente().encolar(vuelo);
+                    } else {
+                        if (vuelo.getPasajesEconPendientes() != null) {
+                            vuelo.getPasajesEconPendientes().encolar(pasaje);
+                        } else {
+                            vuelo.setPasajesEconPendientes(new Cola<Pasaje>());
+                            vuelo.getPasajesEconPendientes().encolar(pasaje);
+                        }
+                    }
+                } else {
+                    vuelo.setPasajesEconVendidos(new ListaSimple<Pasaje>());
+                    vuelo.getPasajesEconVendidos().agregarInicio(pasaje);
+
+                    if (vuelo.getPasajesEconPendientes() != null) {
+                            vuelo.getPasajesEconPendientes().encolar(pasaje);
+                        } else {
+                            vuelo.setPasajesEconPendientes(new Cola<Pasaje>());
+                            vuelo.getPasajesEconPendientes().encolar(pasaje);
+                        }
+                }
+
+            } else {
+                if (vuelo.getPasajesPClaseVendidos() != null) {
+
+                    if (vuelo.getCantPasajesPClase() > vuelo.getPasajesPClaseVendidos().cantElementos()) {
+                        vuelo.getPasajesPClaseVendidos().agregarInicio(pasaje);
+                        cliente.getVuelosCliente().encolar(vuelo);
+                    } else {
+                        if (vuelo.getPasajesPClasePendientes()!= null) {
+                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
+                        } else {
+                            vuelo.setPasajesPClasePendientes(new Cola<Pasaje>());
+                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
+                        }
+                    }
+                } else {
+                    vuelo.setPasajesPClaseVendidos(new ListaSimple<Pasaje>());
+                    vuelo.getPasajesPClaseVendidos().agregarInicio(pasaje);
+
+                    if (vuelo.getPasajesPClasePendientes() != null) {
+                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
+                        } else {
+                            vuelo.setPasajesPClasePendientes(new Cola<Pasaje>());
+                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
+                        }
+                }
+            }
+            ret = ret.OK;
+        }
+
+        return new Retorno(ret);
     }
 
     @Override
-    public Retorno devolverPasaje(String pasaporteCliente, String codigoVuelo) {
-        return Retorno.noImplementada();
+    public Retorno devolverPasaje(String pasaporteCliente, String codigoVuelo
+    ) {
+        Resultado ret = null;
+
+        Cliente cliente = clientes.obtenerElemento(new Cliente(pasaporteCliente)).getDato();
+
+        Vuelo vuelo = vuelos.obtenerElemento(new Vuelo(codigoVuelo)).getDato();
+        Pasaje econ = null;
+        Pasaje pClase = null;
+
+        if (vuelo != null && cliente != null) {
+
+            if (vuelo.getPasajesEconVendidos() != null) {
+                econ = vuelo.getPasajesEconVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
+            }
+            if (vuelo.getPasajesPClaseVendidos() != null) {
+                pClase = vuelo.getPasajesPClaseVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
+            }
+        }
+        if (cliente == null) {
+            ret = ret.ERROR_1;
+        } else if (vuelo == null) {
+            ret = ret.ERROR_2;
+        } else if (econ == null && pClase == null) {
+            ret = ret.ERROR_3;
+        } else {
+            if (econ != null) {
+                vuelo.getPasajesEconDevueltos().agregarInicio(econ);
+                vuelo.getPasajesEconVendidos().borrarElemento(econ);
+
+                if (vuelo.getPasajesEconPendientes() != null) {
+                    vuelo.getPasajesEconVendidos().agregarInicio(vuelo.getPasajesEconPendientes().frente());
+                    vuelo.getPasajesEconPendientes().desencolar();
+                    cliente.getVuelosCliente().encolar(vuelo);
+                }
+            } else {
+                vuelo.getPasajesPClaseDevueltos().agregarInicio(pClase);
+                vuelo.getPasajesPClaseVendidos().borrarElemento(pClase);
+
+                if (!vuelo.getPasajesPClasePendientes().esVacia()) {
+                    vuelo.getPasajesPClaseVendidos().agregarInicio(vuelo.getPasajesPClasePendientes().frente());
+                    vuelo.getPasajesPClasePendientes().desencolar();
+                    cliente.getVuelosCliente().encolar(vuelo);
+                }
+            }
+            ret = ret.OK;
+        }
+        return new Retorno(ret);
     }
 
     @Override
@@ -182,7 +300,8 @@ public class Sistema implements IObligatorio {
     }
 
     @Override
-    public Retorno listarAvionesDeAerolinea(String nombre) {
+    public Retorno listarAvionesDeAerolinea(String nombre
+    ) {
 
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
 
@@ -214,12 +333,15 @@ public class Sistema implements IObligatorio {
 
     // Aplicar recursivamente
     @Override
-    public Retorno vuelosDeCliente(String pasaporte) {
+    public Retorno vuelosDeCliente(String pasaporte
+    ) {
         Retorno r = new Retorno(Retorno.Resultado.OK);
         Cliente buscado = clientes.obtenerElemento(new Cliente(pasaporte)).getDato();
 
-        if (buscado != null) {
-            r.valorString = BuscarVuelosDelCliente(buscado.getVuelosCliente().getInicio(), buscado);
+        if (buscado != null && buscado.getVuelosCliente() != null) {
+
+            String texto = BuscarVuelosDelCliente(buscado.getVuelosCliente().getInicio(), buscado);
+            r.valorString = texto.substring(0, texto.length() - 1);
         }
 
         return r;
@@ -229,27 +351,112 @@ public class Sistema implements IObligatorio {
         if (nodo == null) {
             return "";
         }
-        
+
         Pasaje buscado = new Pasaje(cliente);
-        
-        if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado) 
-            || nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClasePendientes().estaElemento(buscado)) {
-            
+
+        if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)
+                || nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClasePendientes().estaElemento(buscado)) {
+
             return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
-        }else if(nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)){
+        } else if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
             return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
         }
-        
+
         return BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
     }
 
     @Override
     public Retorno pasajesDevueltos(String nombreAerolinea) {
-        return Retorno.noImplementada();
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+
+        Aerolinea aerolinea = aerolineas.obtenerElemento(new Aerolinea(nombreAerolinea)).getDato();
+
+        if (aerolinea == null) {
+            r = Retorno.error1();
+        } else {
+            r = Retorno.ok();
+
+            String pasajesDevueltos = "";
+
+            ListaSimple<Vuelo> vuelosDevueltos = vuelos;
+
+            if (vuelosDevueltos != null) {
+                for (int i = 0; i < vuelosDevueltos.cantElementos(); i++) {
+                    Vuelo vuelo = vuelosDevueltos.getInicio().getDato();
+
+                    if (vuelo.getAerolinea().getNombre() == nombreAerolinea) {
+                        if (vuelo.getPasajesPClaseDevueltos() != null) {
+                            pasajesDevueltos += vuelo.getPasajesPClaseDevueltos().mostrar();
+                        }
+                        if (vuelo.getPasajesEconDevueltos() != null) {
+                            pasajesDevueltos += vuelo.getPasajesEconDevueltos().mostrar();
+                        }
+                    }
+                    vuelosDevueltos.borrarInicio();
+                }
+            }
+            r.valorString = pasajesDevueltos;
+        }
+        return r;
     }
 
     @Override
     public Retorno vistaDeVuelo(String codigoVuelo) {
-        return Retorno.noImplementada();
+
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+
+        Vuelo vuelo = vuelos.obtenerElemento(new Vuelo(codigoVuelo)).getDato();
+
+        String econ[][] = new String[3][vuelo.getCantPasajesEcon()];
+        String pClase[][] = new String[3][vuelo.getCantPasajesPClase()];
+
+        ListaSimple<Pasaje> pasajesEco = vuelo.getPasajesEconVendidos();
+
+        ListaSimple<Pasaje> pasajesPClase = vuelo.getPasajesPClaseVendidos();
+
+        for (int i = 0; i < econ.length; i++) {
+            for (int j = 0; j < econ[i].length; j++) {
+                if (!pasajesEco.esVacia()) {
+                    econ[i][j] = pasajesEco.getInicio().getDato().getCliente().getPasaporte();
+                    pasajesEco.borrarInicio();
+                } else {
+                    econ[i][j] = "XXXXXXXX";
+                }
+            }
+        }
+        for (int i = 0; i < pClase.length; i++) {
+            for (int j = 0; j < pClase[i].length; j++) {
+                if (!pasajesPClase.esVacia()) {
+                    pClase[i][j] = pasajesPClase.getInicio().getDato().getCliente().getPasaporte();
+                    pasajesPClase.borrarInicio();
+                } else {
+                    pClase[i][j] = "XXXXXXXX";
+                }
+            }
+        }
+        String vistaVuelo = "**********************************\\n\\t*\\tPRIMERA\\t*\\t\\n";
+
+        for (int i = 0; i < pClase.length; i++) {
+            vistaVuelo += "**********************************\\n";
+            for (int j = 0; j < pClase[i].length; j++) {
+                vistaVuelo += "* " + pClase[i][j] + " ";
+            }
+            vistaVuelo += "\\t*\\n";
+        }
+        vistaVuelo = "**********************************\\n\\t*\\tECONÓMICA\\t*\\t\\n";
+        for (int i = 0; i < econ.length; i++) {
+            vistaVuelo += "**********************************\\n";
+            for (int j = 0; j < econ[i].length; j++) {
+                vistaVuelo += "* " + econ[i][j] + " ";
+            }
+            vistaVuelo += "\\t*\\n";
+        }
+        vistaVuelo += "**********************************";
+        r.valorString = vistaVuelo;
+        return r;
+    }
+
+    private ListaSimple<Pasaje> setPasajesEconVendidos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

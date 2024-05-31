@@ -37,18 +37,21 @@ public class IObligatorioTest {
 
         miSistema.crearVuelo("ALT123", "Avianca", "AAA123", "España", 20, 5, 2024, 12, 3);
         miSistema.crearVuelo("ALT1234", "Delta", "AAA123", "Francia", 20, 5, 2024, 6, 3);
-         miSistema.crearVuelo("ALT1235", "Avianca", "AAA123", "Italia", 25, 5, 2024, 15, 6);
+        miSistema.crearVuelo("ALT1235", "Avianca", "AAA123", "Italia", 25, 5, 2024, 15, 6);
 
         miSistema.comprarPasaje("A1B2C3D", "ALT123", 1);
         miSistema.comprarPasaje("A1B2C3D", "ALT1234", 2);
 
-        miSistema.comprarPasaje("X4Y5Z6A", "ALT123", 1);
-        miSistema.comprarPasaje("ALT1234", "ALT123", 2);
+        miSistema.comprarPasaje("X4Y5Z6A", "ALT123", 2);
         miSistema.comprarPasaje("X4Y5Z6A", "ALT1234", 1);
-//
-//        miSistema.devolverPasaje("A1B2C3D", "ALT123");
-//        miSistema.devolverPasaje("X4Y5Z6A", "ALT123");
-//        miSistema.devolverPasaje("ALT1234", "ALT123");
+
+        miSistema.comprarPasaje("B7C8D9E", "ALT123", 2);
+
+        miSistema.devolverPasaje("A1B2C3D", "ALT123");
+        
+        miSistema.devolverPasaje("X4Y5Z6A", "ALT1234");
+        
+        miSistema.devolverPasaje("B7C8D9E", "ALT123");
 
     }
 
@@ -264,24 +267,25 @@ public class IObligatorioTest {
 
     @Test
     public void testDevolverPasajeOK() {
-        Retorno r = miSistema.devolverPasaje("X4Y5Z6A", "ALT1234");
+        Retorno r = miSistema.devolverPasaje("X4Y5Z6A", "ALT123");
         assertEquals(Retorno.ok().resultado, r.resultado);
     }
-    
-     @Test
+
+    @Test
     public void testDevolverPasajeERROR1() {
         Retorno r = miSistema.devolverPasaje("X4YAS5Z6A", "ALT1234");
         assertEquals(Retorno.error1().resultado, r.resultado);
     }
-      @Test
+
+    @Test
     public void testDevolverPasajeERROR2() {
         Retorno r = miSistema.devolverPasaje("X4Y5Z6A", "ALT1234DAS");
         assertEquals(Retorno.error2().resultado, r.resultado);
     }
-    
-     @Test
+
+    @Test
     public void testDevolverPasajeERROR3() {
-        Retorno r = miSistema.devolverPasaje("ALT1234", "ALT1234");
+        Retorno r = miSistema.devolverPasaje("X4Y5Z6A", "ALT1235");
         assertEquals(Retorno.error3().resultado, r.resultado);
     }
 
@@ -322,7 +326,7 @@ public class IObligatorioTest {
     public void testListarVuelos() {
         Retorno r = miSistema.listarVuelos();
         assertEquals(Retorno.ok().resultado, r.resultado);
-        assertEquals("ALT123-Avianca-AAA123-1-0-20|\nALT1234-Delta-AAA123-AAA123-0-1-8|", r.valorString);
+        assertEquals("ALT123-Avianca-AAA123-0-1-20|\nALT1234-Delta-AAA123-0-1-8|\nALT1235-Avianca-AAA123-0-0-21|", r.valorString);
     }
 
     @Test
@@ -333,13 +337,25 @@ public class IObligatorioTest {
     }
 
     @Test
-    public void testPasajesDevueltos() {
-        //Completar para segunda entrega
+    public void testPasajesDevueltosOK() {
+        Retorno r = miSistema.pasajesDevueltos("Avianca");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.pasajesDevueltos("Avianca");
+        assertEquals("B7C8D9E-ALT123|\nA1B2C3D-ALT123|", r.valorString);
+    }
+    
+    
+    @Test
+    public void testPasajesDevueltosERROR1() {
+        Retorno r = miSistema.pasajesDevueltos("Plata");
+        assertEquals(Retorno.error1().resultado, r.resultado);
+        
     }
 
     @Test
     public void testVistaDeVuelo() {
-        //Completar para segunda entrega
+        Retorno r = miSistema.vistaDeVuelo("ALT123");
+        assertEquals("B7C8D9E-ALT123|\nX4Y5Z6A-ALT1234|", r.valorString);
     }
 
 }

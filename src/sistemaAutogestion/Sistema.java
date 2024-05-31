@@ -12,11 +12,9 @@ import sistemaAutogestion.Retorno.Resultado;
 
 public class Sistema implements IObligatorio {
 
-    public ListaSimple<Aerolinea> aerolineas; //"2.1. Listar Aerolíneas" pide listar todas las aerolineas del SISTEMA (Se listan las aerolíneas ordenadas alfabéticamente.)
-    public Cola<Cliente> clientes; //"2.3. Listar Clientes" pide listar todos los clientes del SISTEMA (el último registrado debe mostrarse primero)
-    public ListaSimple<Vuelo> vuelos; //"2.4. Listar Vuelos" pide listar todos los vuelos del SISTEMA
-    //"2.6. Reporte de pasajes devueltos" pide buscar todos los pasajes devueltos de una aerolinea la lista general
-    //facilitaria ingresar a la lista de vuelos con el nombre de la aerolinea y extraer de estos toda su lista de pasajes devueltos
+    public ListaSimple<Aerolinea> aerolineas; //
+    public Cola<Cliente> clientes; //
+    public ListaSimple<Vuelo> vuelos;
 
     public Sistema() {
         aerolineas = new ListaSimple<Aerolinea>();
@@ -205,8 +203,7 @@ public class Sistema implements IObligatorio {
     }
 
     @Override
-    public Retorno devolverPasaje(String pasaporteCliente, String codigoVuelo
-    ) {
+    public Retorno devolverPasaje(String pasaporteCliente, String codigoVuelo) {
         Resultado ret = null;
 
         Cliente cliente = clientes.obtenerElemento(new Cliente(pasaporteCliente)).getDato();
@@ -216,14 +213,10 @@ public class Sistema implements IObligatorio {
         Pasaje pClase = null;
 
         if (vuelo != null && cliente != null) {
-
-            if (vuelo.getPasajesEconVendidos() != null) {
-                econ = vuelo.getPasajesEconVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
-            }
-            if (vuelo.getPasajesPClaseVendidos() != null) {
-                pClase = vuelo.getPasajesPClaseVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
-            }
+            econ = vuelo.getPasajesEconVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
+            pClase = vuelo.getPasajesPClaseVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
         }
+
         if (cliente == null) {
             ret = ret.ERROR_1;
         } else if (vuelo == null) {
@@ -235,7 +228,7 @@ public class Sistema implements IObligatorio {
                 vuelo.getPasajesEconDevueltos().agregarInicio(econ);
                 vuelo.getPasajesEconVendidos().borrarElemento(econ);
 
-                if (vuelo.getPasajesEconPendientes() != null) {
+                if (!vuelo.getPasajesEconPendientes().esVacia()) {
                     vuelo.getPasajesEconVendidos().agregarInicio(vuelo.getPasajesEconPendientes().frente());
                     vuelo.getPasajesEconPendientes().desencolar();
                     cliente.getVuelosCliente().encolar(vuelo);
@@ -297,8 +290,7 @@ public class Sistema implements IObligatorio {
 
     // Aplicar recursivamente
     @Override
-    public Retorno vuelosDeCliente(String pasaporte
-    ) {
+    public Retorno vuelosDeCliente(String pasaporte) {
         Retorno r = new Retorno(Retorno.Resultado.OK);
         Cliente buscado = clientes.obtenerElemento(new Cliente(pasaporte)).getDato();
 
@@ -320,7 +312,6 @@ public class Sistema implements IObligatorio {
 
         if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)
                 || nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClasePendientes().estaElemento(buscado)) {
-
             return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
         } else if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
             return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
@@ -340,26 +331,24 @@ public class Sistema implements IObligatorio {
         } else {
             r = Retorno.ok();
 
-            String pasajesDevueltos = "";
+            r.valorString = "";
 
-            ListaSimple<Vuelo> vuelosDevueltos = vuelos;
+            Nodo<Vuelo> nodo = vuelos.getInicio();
 
-            if (vuelosDevueltos != null) {
-                for (int i = 0; i < vuelosDevueltos.cantElementos(); i++) {
-                    Vuelo vuelo = vuelosDevueltos.getInicio().getDato();
+            for (int i = 0; i < vuelos.cantElementos() - 1; i++) {
 
-                    if (vuelo.getAerolinea().getNombre() == nombreAerolinea) {
-                        if (vuelo.getPasajesPClaseDevueltos() != null) {
-                            pasajesDevueltos += vuelo.getPasajesPClaseDevueltos().mostrar();
-                        }
-                        if (vuelo.getPasajesEconDevueltos() != null) {
-                            pasajesDevueltos += vuelo.getPasajesEconDevueltos().mostrar();
-                        }
+                if (nodo.getDato().getAerolinea().getNombre() == nombreAerolinea) {
+                    if (!nodo.getDato().getPasajesPClaseDevueltos().esVacia()) {
+                        r.valorString += nodo.getDato().getPasajesPClaseDevueltos().mostrar() + "\n";
                     }
-                    vuelosDevueltos.borrarInicio();
+                    if (!nodo.getDato().getPasajesEconDevueltos().esVacia()) {
+                        r.valorString += nodo.getDato().getPasajesEconDevueltos().mostrar()+ "\n";
+                    }
                 }
+                nodo = nodo.getSiguiente();
             }
-            r.valorString = pasajesDevueltos;
+        r.valorString = r.valorString.substring(0,  r.valorString.length()-1);
+
         }
         return r;
     }
@@ -367,12 +356,12 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno vistaDeVuelo(String codigoVuelo) {
 
-        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Retorno r = new Retorno(Retorno.Resultado.OK);
 
         Vuelo vuelo = vuelos.obtenerElemento(new Vuelo(codigoVuelo)).getDato();
 
-        String econ[][] = new String[3][vuelo.getCantPasajesEcon() / 3];
-        String pClase[][] = new String[3][vuelo.getCantPasajesPClase() / 3];
+        String econ[][] = new String[vuelo.getCantPasajesEcon() / 3][3];
+        String pClase[][] = new String[vuelo.getCantPasajesPClase() / 3][3];
 
         ListaSimple<Pasaje> pasajesEco = vuelo.getPasajesEconVendidos();
 
@@ -407,7 +396,7 @@ public class Sistema implements IObligatorio {
             }
             vistaVuelo += "\\t*\\n";
         }
-        vistaVuelo = "**********************************\\n\\t*\\tECONÓMICA\\t*\\t\\n";
+        vistaVuelo += "**********************************\\n\\t*\\tECONÓMICA\\t*\\t\\n";
         for (int i = 0; i < econ.length; i++) {
             vistaVuelo += "**********************************\\n";
             for (int j = 0; j < econ[i].length; j++) {

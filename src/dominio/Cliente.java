@@ -23,6 +23,7 @@ public class Cliente {
         this.pasaporte = pasaporte;
         this.nombre = nombre;
         this.edad = edad;
+        vuelosCliente = new Cola<Vuelo>();
     }
 
     public Cliente(String pasaporte) {

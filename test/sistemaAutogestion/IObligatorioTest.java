@@ -35,16 +35,16 @@ public class IObligatorioTest {
         miSistema.registrarCliente("X4Y5Z6A", "Santiago Mieres", 30);
         miSistema.registrarCliente("B7C8D9E", "Federico Perez", 56);
 
-        miSistema.crearVuelo("ALT123", "Avianca", "AAA123", "España", 20, 5, 2024, 15, 6);
+        miSistema.crearVuelo("ALT123", "Avianca", "AAA123", "España", 20, 5, 2024, 12, 3);
         miSistema.crearVuelo("ALT1234", "Delta", "AAA123", "Francia", 20, 5, 2024, 6, 3);
          miSistema.crearVuelo("ALT1235", "Avianca", "AAA123", "Italia", 25, 5, 2024, 15, 6);
 
         miSistema.comprarPasaje("A1B2C3D", "ALT123", 1);
-//        miSistema.comprarPasaje("A1B2C3D", "ALT1234", 2);
-//
-//        miSistema.comprarPasaje("X4Y5Z6A", "ALT123", 1);
-//        miSistema.comprarPasaje("ALT1234", "ALT123", 2);
-//        miSistema.comprarPasaje("X4Y5Z6A", "ALT1234", 1);
+        miSistema.comprarPasaje("A1B2C3D", "ALT1234", 2);
+
+        miSistema.comprarPasaje("X4Y5Z6A", "ALT123", 1);
+        miSistema.comprarPasaje("ALT1234", "ALT123", 2);
+        miSistema.comprarPasaje("X4Y5Z6A", "ALT1234", 1);
 //
 //        miSistema.devolverPasaje("A1B2C3D", "ALT123");
 //        miSistema.devolverPasaje("X4Y5Z6A", "ALT123");

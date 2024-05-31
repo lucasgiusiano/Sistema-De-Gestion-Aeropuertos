@@ -41,6 +41,13 @@ public class Vuelo implements Comparable<Vuelo> {
         this.año = año;
         this.cantPasajesEcon = cantPasajesEcon;
         this.cantPasajesPClase = cantPasajesPClase;
+        pasajesEconVendidos = new ListaSimple<Pasaje>();
+        pasajesEconPendientes = new Cola<Pasaje>();
+        pasajesEconDevueltos = new ListaSimple<Pasaje>();
+        pasajesPClaseVendidos = new ListaSimple<Pasaje>();
+        pasajesPClasePendientes = new Cola<Pasaje>();
+        pasajesPClaseDevueltos = new ListaSimple<Pasaje>();
+
     }
 
     public Vuelo(int dia, int mes, int año, Avion avion) {
@@ -223,19 +230,17 @@ public class Vuelo implements Comparable<Vuelo> {
 
     @Override
     public String toString() {
-        
+
         int pasajesEcon = 0;
-        if(this.pasajesEconVendidos !=null)
-        {
+        if (this.pasajesEconVendidos != null) {
             pasajesEcon = pasajesEconVendidos.cantElementos();
         }
-            
+
         int pasajesPClase = 0;
-        if(this.pasajesPClaseVendidos!=null)
-        {
+        if (this.pasajesPClaseVendidos != null) {
             pasajesPClase = pasajesPClaseVendidos.cantElementos();
         }
-        int pasajesDisponibles = (cantPasajesEcon + cantPasajesPClase) - (pasajesEcon +pasajesPClase);
+        int pasajesDisponibles = (cantPasajesEcon + cantPasajesPClase) - (pasajesEcon + pasajesPClase);
 
         return codVuelo + "-" + aerolinea.getNombre() + "-" + avion.getCodAvion() + "-" + pasajesEcon + "-" + pasajesPClase + "-" + pasajesDisponibles + "|\n";
 

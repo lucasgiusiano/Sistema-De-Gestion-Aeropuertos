@@ -184,59 +184,23 @@ public class Sistema implements IObligatorio {
         } else {
             Pasaje pasaje = new Pasaje(cliente, vuelo, categoríaPasaje);
             if (categoríaPasaje == 1) {
-                if (vuelo.getPasajesEconVendidos() != null) {
-                    if (vuelo.getCantPasajesEcon() > vuelo.getPasajesEconVendidos().cantElementos()) {
-                        vuelo.getPasajesEconVendidos().agregarInicio(pasaje);
-                        cliente.getVuelosCliente().encolar(vuelo);
-                    } else {
-                        if (vuelo.getPasajesEconPendientes() != null) {
-                            vuelo.getPasajesEconPendientes().encolar(pasaje);
-                        } else {
-                            vuelo.setPasajesEconPendientes(new Cola<Pasaje>());
-                            vuelo.getPasajesEconPendientes().encolar(pasaje);
-                        }
-                    }
-                } else {
-                    vuelo.setPasajesEconVendidos(new ListaSimple<Pasaje>());
+                if (vuelo.getCantPasajesEcon() > vuelo.getPasajesEconVendidos().cantElementos()) {
                     vuelo.getPasajesEconVendidos().agregarInicio(pasaje);
-
-                    if (vuelo.getPasajesEconPendientes() != null) {
-                            vuelo.getPasajesEconPendientes().encolar(pasaje);
-                        } else {
-                            vuelo.setPasajesEconPendientes(new Cola<Pasaje>());
-                            vuelo.getPasajesEconPendientes().encolar(pasaje);
-                        }
+                    cliente.getVuelosCliente().encolar(vuelo);
+                } else {
+                    vuelo.getPasajesEconPendientes().encolar(pasaje);
                 }
 
             } else {
-                if (vuelo.getPasajesPClaseVendidos() != null) {
-
-                    if (vuelo.getCantPasajesPClase() > vuelo.getPasajesPClaseVendidos().cantElementos()) {
-                        vuelo.getPasajesPClaseVendidos().agregarInicio(pasaje);
-                        cliente.getVuelosCliente().encolar(vuelo);
-                    } else {
-                        if (vuelo.getPasajesPClasePendientes()!= null) {
-                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
-                        } else {
-                            vuelo.setPasajesPClasePendientes(new Cola<Pasaje>());
-                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
-                        }
-                    }
-                } else {
-                    vuelo.setPasajesPClaseVendidos(new ListaSimple<Pasaje>());
+                if (vuelo.getCantPasajesPClase() > vuelo.getPasajesPClaseVendidos().cantElementos()) {
                     vuelo.getPasajesPClaseVendidos().agregarInicio(pasaje);
-
-                    if (vuelo.getPasajesPClasePendientes() != null) {
-                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
-                        } else {
-                            vuelo.setPasajesPClasePendientes(new Cola<Pasaje>());
-                            vuelo.getPasajesPClasePendientes().encolar(pasaje);
-                        }
+                    cliente.getVuelosCliente().encolar(vuelo);
+                } else {
+                    vuelo.getPasajesPClasePendientes().encolar(pasaje);
                 }
             }
             ret = ret.OK;
         }
-
         return new Retorno(ret);
     }
 
@@ -407,8 +371,8 @@ public class Sistema implements IObligatorio {
 
         Vuelo vuelo = vuelos.obtenerElemento(new Vuelo(codigoVuelo)).getDato();
 
-        String econ[][] = new String[3][vuelo.getCantPasajesEcon()];
-        String pClase[][] = new String[3][vuelo.getCantPasajesPClase()];
+        String econ[][] = new String[3][vuelo.getCantPasajesEcon() / 3];
+        String pClase[][] = new String[3][vuelo.getCantPasajesPClase() / 3];
 
         ListaSimple<Pasaje> pasajesEco = vuelo.getPasajesEconVendidos();
 
@@ -454,9 +418,5 @@ public class Sistema implements IObligatorio {
         vistaVuelo += "**********************************";
         r.valorString = vistaVuelo;
         return r;
-    }
-
-    private ListaSimple<Pasaje> setPasajesEconVendidos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

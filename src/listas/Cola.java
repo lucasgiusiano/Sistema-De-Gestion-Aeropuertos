@@ -73,14 +73,14 @@ public class Cola<T> implements ICola<T> {
     @Override
     public String mostrar() {
         String texto = mostrarRecursivo(getInicio());
-        return texto.substring(0, texto.length()-1);
+        return texto;
     }
 
     private String mostrarRecursivo(Nodo<T> nodo) {
         if (nodo == null) {
             return "";
         }
-        return nodo.getDato().toString() + "\n" + mostrarRecursivo(nodo.getSiguiente());
+        return mostrarRecursivo(nodo.getSiguiente()) + nodo.getDato().toString() + "\n";
     }
 
     @Override

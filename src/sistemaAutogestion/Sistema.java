@@ -310,8 +310,7 @@ public class Sistema implements IObligatorio {
 
         Pasaje buscado = new Pasaje(cliente);
 
-        if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)
-                || nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClasePendientes().estaElemento(buscado)) {
+        if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)) {
             return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
         } else if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
             return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);

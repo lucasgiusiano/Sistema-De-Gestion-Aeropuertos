@@ -334,14 +334,14 @@ public class Sistema implements IObligatorio {
 
             Nodo<Vuelo> nodo = vuelos.getInicio();
 
-            for (int i = 0; i < vuelos.cantElementos() - 1; i++) {
+            for (int i = 0; i < vuelos.cantElementos(); i++) {
 
                 if (nodo.getDato().getAerolinea().getNombre() == nombreAerolinea) {
                     if (!nodo.getDato().getPasajesPClaseDevueltos().esVacia()) {
-                        r.valorString += nodo.getDato().getPasajesPClaseDevueltos().mostrar() + "\n";
+                        r.valorString = nodo.getDato().getPasajesPClaseDevueltos().mostrar() + "\n" + r.valorString;
                     }
                     if (!nodo.getDato().getPasajesEconDevueltos().esVacia()) {
-                        r.valorString += nodo.getDato().getPasajesEconDevueltos().mostrar() + "\n";
+                        r.valorString = nodo.getDato().getPasajesEconDevueltos().mostrar() + "\n" + r.valorString;
                     }
                 }
                 nodo = nodo.getSiguiente();

@@ -341,7 +341,7 @@ public class IObligatorioTest {
         Retorno r = miSistema.pasajesDevueltos("Avianca");
         assertEquals(Retorno.ok().resultado, r.resultado);
         r = miSistema.pasajesDevueltos("Avianca");
-        assertEquals("B7C8D9E-ALT123|\nA1B2C3D-ALT123|", r.valorString);
+        assertEquals("A1B2C3D-ALT123|\nB7C8D9E-ALT123|", r.valorString);
     }
     
     

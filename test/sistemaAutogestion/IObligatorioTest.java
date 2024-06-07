@@ -319,7 +319,7 @@ public class IObligatorioTest {
     public void testListarClientes() {
         Retorno r = miSistema.listarClientes();
         assertEquals(Retorno.ok().resultado, r.resultado);
-        assertEquals("B7C8D9E-Federico Perez-56|\nX4Y5Z6A-Santiago Mieres-30|\nA1B2C3D-Lucas Giusiano-23|\n", r.valorString);
+        assertEquals("B7C8D9E-Federico Perez-56|\nX4Y5Z6A-Santiago Mieres-30|\nA1B2C3D-Lucas Giusiano-23|", r.valorString);
     }
 
     @Test
@@ -333,7 +333,7 @@ public class IObligatorioTest {
     public void testVuelosDeCliente() {
         Retorno r = miSistema.vuelosDeCliente("A1B2C3D");
         assertEquals(Retorno.ok().resultado, r.resultado);
-        assertEquals("ALT123-DEV|\nALT1234-CPR|", r.valorString);
+        assertEquals("ALT1234-CPR|\nALT123-CPR|\nALT123-DEV|", r.valorString);
     }
 
     @Test

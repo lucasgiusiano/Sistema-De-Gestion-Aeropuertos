@@ -80,6 +80,9 @@ public class Cola<T> implements ICola<T> {
         if (nodo == null) {
             return "";
         }
+        if (nodo.getDato() == getInicio().getDato()) {
+            return mostrarRecursivo(nodo.getSiguiente()) + nodo.getDato().toString();
+        }
         return mostrarRecursivo(nodo.getSiguiente()) + nodo.getDato().toString() + "\n";
     }
 

@@ -295,7 +295,7 @@ public class Sistema implements IObligatorio {
 
         if (buscado != null && buscado.getVuelosCliente() != null) {
 
-            String texto = BuscarVuelosCompradosDelCliente(buscado.getVuelosCliente().getInicio(), buscado) + BuscarVuelosDevueltosDelCliente(buscado.getVuelosCliente().getInicio(), buscado);
+            String texto = BuscarVuelosCompradosDelCliente(buscado.getVuelosCliente().getInicio(), buscado) + BuscarVuelosDevueltosDelCliente(buscado.getvuelosDevueltosCliente().getInicio(), buscado);
             r.valorString = texto.substring(0, texto.length() - 1);
         }
 
@@ -307,13 +307,7 @@ public class Sistema implements IObligatorio {
             return "";
         }
 
-        Pasaje buscado = new Pasaje(cliente);
-
-        if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)) {
-            return BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente) + nodo.getDato().getCodVuelo() + "-CPR|\n";
-        }
-
-        return BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente);
+        return BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente) + nodo.getDato().getCodVuelo() + "-CPR|\n";
     }
 
     public String BuscarVuelosDevueltosDelCliente(Nodo<Vuelo> nodo, Cliente cliente) {
@@ -321,13 +315,8 @@ public class Sistema implements IObligatorio {
             return "";
         }
 
-        Pasaje buscado = new Pasaje(cliente);
+        return BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente) + nodo.getDato().getCodVuelo() + "-DEV|\n";
 
-        if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
-            return BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente) + nodo.getDato().getCodVuelo() + "-DEV|\n";
-        }
-
-        return BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente);
     }
 
     @Override

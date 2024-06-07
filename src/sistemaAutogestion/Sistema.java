@@ -311,7 +311,7 @@ public class Sistema implements IObligatorio {
         Pasaje buscado = new Pasaje(cliente);
 
         if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)) {
-            return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente);
+            return BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente) + nodo.getDato().getCodVuelo() + "-CPR|\n";
         }
 
         return BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente);
@@ -325,7 +325,7 @@ public class Sistema implements IObligatorio {
         Pasaje buscado = new Pasaje(cliente);
 
         if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
-            return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente);
+            return BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente) + nodo.getDato().getCodVuelo() + "-DEV|\n";
         }
 
         return BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente);

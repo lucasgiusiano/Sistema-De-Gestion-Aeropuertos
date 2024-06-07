@@ -296,14 +296,14 @@ public class Sistema implements IObligatorio {
 
         if (buscado != null && buscado.getVuelosCliente() != null) {
 
-            String texto = BuscarVuelosDelCliente(buscado.getVuelosCliente().getInicio(), buscado);
+            String texto = BuscarVuelosCompradosDelCliente(buscado.getVuelosCliente().getInicio(), buscado) + BuscarVuelosDevueltosDelCliente(buscado.getVuelosCliente().getInicio(), buscado);
             r.valorString = texto.substring(0, texto.length() - 1);
         }
 
         return r;
     }
 
-    public String BuscarVuelosDelCliente(Nodo<Vuelo> nodo, Cliente cliente) {
+    public String BuscarVuelosCompradosDelCliente(Nodo<Vuelo> nodo, Cliente cliente) {
         if (nodo == null) {
             return "";
         }
@@ -311,12 +311,24 @@ public class Sistema implements IObligatorio {
         Pasaje buscado = new Pasaje(cliente);
 
         if (nodo.getDato().getPasajesEconVendidos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseVendidos().estaElemento(buscado)) {
-            return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
-        } else if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
-            return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
+            return nodo.getDato().getCodVuelo() + "-CPR|\n" + BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente);
         }
 
-        return BuscarVuelosDelCliente(nodo.getSiguiente(), cliente);
+        return BuscarVuelosCompradosDelCliente(nodo.getSiguiente(), cliente);
+    }
+
+    public String BuscarVuelosDevueltosDelCliente(Nodo<Vuelo> nodo, Cliente cliente) {
+        if (nodo == null) {
+            return "";
+        }
+
+        Pasaje buscado = new Pasaje(cliente);
+
+        if (nodo.getDato().getPasajesEconDevueltos().estaElemento(buscado) || nodo.getDato().getPasajesPClaseDevueltos().estaElemento(buscado)) {
+            return nodo.getDato().getCodVuelo() + "-DEV|\n" + BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente);
+        }
+
+        return BuscarVuelosDevueltosDelCliente(nodo.getSiguiente(), cliente);
     }
 
     @Override
@@ -341,12 +353,12 @@ public class Sistema implements IObligatorio {
                         r.valorString += nodo.getDato().getPasajesPClaseDevueltos().mostrar() + "\n";
                     }
                     if (!nodo.getDato().getPasajesEconDevueltos().esVacia()) {
-                        r.valorString += nodo.getDato().getPasajesEconDevueltos().mostrar()+ "\n";
+                        r.valorString += nodo.getDato().getPasajesEconDevueltos().mostrar() + "\n";
                     }
                 }
                 nodo = nodo.getSiguiente();
             }
-        r.valorString = r.valorString.substring(0,  r.valorString.length()-1);
+            r.valorString = r.valorString.substring(0, r.valorString.length() - 1);
 
         }
         return r;

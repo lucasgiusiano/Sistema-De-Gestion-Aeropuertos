@@ -224,10 +224,10 @@ public class Sistema implements IObligatorio {
         } else if (econ == null && pClase == null) {
             ret = ret.ERROR_3;
         } else {
+            cliente.getvuelosDevueltosCliente().encolar(vuelo);
             if (econ != null) {
                 vuelo.getPasajesEconDevueltos().agregarInicio(econ);
                 vuelo.getPasajesEconVendidos().borrarElemento(econ);
-
                 if (!vuelo.getPasajesEconPendientes().esVacia()) {
                     vuelo.getPasajesEconVendidos().agregarInicio(vuelo.getPasajesEconPendientes().frente());
                     vuelo.getPasajesEconPendientes().desencolar();
@@ -236,7 +236,6 @@ public class Sistema implements IObligatorio {
             } else {
                 vuelo.getPasajesPClaseDevueltos().agregarInicio(pClase);
                 vuelo.getPasajesPClaseVendidos().borrarElemento(pClase);
-
                 if (!vuelo.getPasajesPClasePendientes().esVacia()) {
                     vuelo.getPasajesPClaseVendidos().agregarInicio(vuelo.getPasajesPClasePendientes().frente());
                     vuelo.getPasajesPClasePendientes().desencolar();

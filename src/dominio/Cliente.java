@@ -18,12 +18,15 @@ public class Cliente {
     private String nombre;
     private int edad;
     private Cola<Vuelo> vuelosCliente; //- "2.5. Listar vuelos de cliente" pide listar los vuelos en los que el cliente compro o compro y devolvio un pasaje
+    private Cola<Vuelo> vuelosDevueltosCliente; //- "2.5. Listar vuelos de cliente" pide listar los vuelos en los que el cliente compro o compro y devolvio un pasaje
 
     public Cliente(String pasaporte, String nombre, int edad) {
         this.pasaporte = pasaporte;
         this.nombre = nombre;
         this.edad = edad;
         vuelosCliente = new Cola<Vuelo>();
+        vuelosDevueltosCliente = new Cola<Vuelo>();
+
     }
 
     public Cliente(String pasaporte) {
@@ -61,6 +64,14 @@ public class Cliente {
     public void setVuelosCliente(Cola<Vuelo> vuelosCliente) {
         this.vuelosCliente = vuelosCliente;
     }
+    
+     public Cola<Vuelo> getvuelosDevueltosCliente() {
+        return vuelosDevueltosCliente;
+    }
+
+    public void setvuelosDevueltosCliente(Cola<Vuelo> vuelosDevueltosCliente) {
+        this.vuelosDevueltosCliente = vuelosDevueltosCliente;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -74,9 +85,9 @@ public class Cliente {
         // Solo se compara el pasaporte para determinar la igualdad
         return Objects.equals(pasaporte, otroCliente.pasaporte);
     }
-    
-     @Override
+
+    @Override
     public String toString() {
-        return pasaporte + "-" + nombre + "-"+ edad +"|" ;
+        return pasaporte + "-" + nombre + "-" + edad + "|";
     }
 }

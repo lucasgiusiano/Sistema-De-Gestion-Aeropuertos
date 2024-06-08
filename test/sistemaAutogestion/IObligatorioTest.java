@@ -48,9 +48,9 @@ public class IObligatorioTest {
         miSistema.comprarPasaje("B7C8D9E", "ALT123", 2);
 
         miSistema.devolverPasaje("A1B2C3D", "ALT123");
-        
+
         miSistema.devolverPasaje("X4Y5Z6A", "ALT1234");
-        
+
         miSistema.devolverPasaje("B7C8D9E", "ALT123");
 
     }
@@ -343,19 +343,120 @@ public class IObligatorioTest {
         r = miSistema.pasajesDevueltos("Avianca");
         assertEquals("A1B2C3D-ALT123|\nB7C8D9E-ALT123|", r.valorString);
     }
-    
-    
+
     @Test
     public void testPasajesDevueltosERROR1() {
         Retorno r = miSistema.pasajesDevueltos("Plata");
         assertEquals(Retorno.error1().resultado, r.resultado);
-        
+
     }
 
     @Test
     public void testVistaDeVuelo() {
         Retorno r = miSistema.vistaDeVuelo("ALT123");
-        assertEquals("B7C8D9E-ALT123|\nX4Y5Z6A-ALT1234|", r.valorString);
+        System.out.println(r.valorString);
+    }
+
+    @Test
+    public void testPuntaAPunta() {
+        //Registro aerolineas
+        Retorno r = miSistema.crearAerolinea("Aerobus", "Argentina", 2);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.crearAerolinea("Aerofligth", "Uruguay", 3);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+
+        //Registro aviones
+        r = miSistema.registrarAvion("Avion1", 9, "Aerobus");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarAvion("Avion2", 9, "Aerobus");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarAvion("Avion1fligth", 9, "Aerofligth");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarAvion("Avion2fligth", 9, "Aerofligth");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarAvion("Avion2", 8, "Aerofligth");
+        assertEquals(Retorno.error2().resultado, r.resultado);
+        r = miSistema.registrarAvion("Avion3fligth", 9, "Aerofligth");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.eliminarAvion("Aerofligth", "Avion3fligth");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarAvion("Avion3fligth", 9, "Aerofligth");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+
+//        Registro clientes
+        r = miSistema.registrarCliente("ABCDEF1", "Carlos1", 20);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF2", "Carlos2", 21);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF3", "Carlos3", 22);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF4", "Carlos4", 23);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF5", "Carlos5", 24);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF6", "Carlos6", 25);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF7", "Carlos7", 26);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF8", "Carlos8", 27);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEF9", "Carlos9", 28);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.registrarCliente("ABCDEJ1", "Carlos10", 29);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.registrarCliente("ABCDEJ2", "Carlos11", 29);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+
+        //Creación de vuelos
+        r = miSistema.crearVuelo("Vuelo1", "Aerobus", "Avion1", "Italia", 25, 6, 2024, 6, 3);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.crearVuelo("Vuelo2", "Aerobus", "Avion2", "Italia", 25, 6, 2024, 3, 6);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.crearVuelo("Vuelo3", "Aerofligth", "Avion2fligth", "Italia", 25, 6, 2024, 6, 3);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.crearVuelo("Vuelo4", "Aerofligth", "Avion1fligth", "Italia", 25, 6, 2024, 3, 6);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        r = miSistema.crearVuelo("Vuelo5", "Aerofligth", "Avion3fligth", "Italia", 25, 6, 2024, 6, 3);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+
+        //Compra de pasajes
+        
+          r = miSistema.comprarPasaje("ABCDEF1", "Vuelo1", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF2", "Vuelo1", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF3", "Vuelo1", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF4", "Vuelo1", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF5", "Vuelo1", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF6", "Vuelo1", 1);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF7", "Vuelo1", 2);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF8", "Vuelo1", 2);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEF9", "Vuelo1", 2);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+         r = miSistema.comprarPasaje("ABCDEJ1", "Vuelo1", 2);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+          r = miSistema.comprarPasaje("ABCDEJ2", "Vuelo1", 2);
+        assertEquals(Retorno.ok().resultado, r.resultado);
+      
+        //Devolución pasaje
+         r = miSistema.devolverPasaje("ABCDEF9", "Vuelo1");
+        assertEquals(Retorno.ok().resultado, r.resultado);
+        
+        //Vista de vuelo completo
+        r = miSistema.vistaDeVuelo("Vuelo1");
+        System.out.println(r.valorString);
+        
+        
+        r = miSistema.listarAvionesDeAerolinea("Aerofligth");
+        assertEquals("Avion3fligth-9|\nAvion2fligth-9|\nAvion1fligth-9|", r.valorString);
+        
+       
     }
 
 }

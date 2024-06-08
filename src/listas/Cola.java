@@ -62,7 +62,7 @@ public class Cola<T> implements ICola<T> {
 
     @Override
     public T frente() {
-        return (T) getInicio();
+        return (T) getInicio().getDato();
     }
 
     @Override

@@ -211,7 +211,7 @@ public class Sistema implements IObligatorio {
         Vuelo vuelo = vuelos.obtenerElemento(new Vuelo(codigoVuelo)).getDato();
         Pasaje econ = null;
         Pasaje pClase = null;
-
+        
         if (vuelo != null && cliente != null) {
             econ = vuelo.getPasajesEconVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
             pClase = vuelo.getPasajesPClaseVendidos().obtenerElemento(new Pasaje(cliente, vuelo)).getDato();
@@ -386,22 +386,22 @@ public class Sistema implements IObligatorio {
                 }
             }
         }
-        String vistaVuelo = "**********************************\\n\\t*\\tPRIMERA\\t*\\t\\n";
+        String vistaVuelo = "**********************************\n\t*\tPRIMERA\t\t*\t\n";
 
         for (int i = 0; i < pClase.length; i++) {
-            vistaVuelo += "**********************************\\n";
+            vistaVuelo += "**********************************\n";
             for (int j = 0; j < pClase[i].length; j++) {
                 vistaVuelo += "* " + pClase[i][j] + " ";
             }
-            vistaVuelo += "\\t*\\n";
+            vistaVuelo += "*\n";
         }
-        vistaVuelo += "**********************************\\n\\t*\\tECONÓMICA\\t*\\t\\n";
+        vistaVuelo += "**********************************\n\t*\tECONÓMICA\t*\t\n";
         for (int i = 0; i < econ.length; i++) {
-            vistaVuelo += "**********************************\\n";
+            vistaVuelo += "**********************************\n";
             for (int j = 0; j < econ[i].length; j++) {
                 vistaVuelo += "* " + econ[i][j] + " ";
             }
-            vistaVuelo += "\\t*\\n";
+            vistaVuelo += "*\n";
         }
         vistaVuelo += "**********************************";
         r.valorString = vistaVuelo;
